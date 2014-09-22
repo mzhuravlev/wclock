@@ -1,0 +1,33 @@
+
+
+<html>
+<head>
+    {% javascripts '@WClockBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% stylesheets '@WClockBundle/Resources/public/css/*' filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+</head>
+<body>
+
+<nav>
+    <ul>
+        <li><a href="{{ path('w_clock_homepage') }}">Главная</a></li>
+        <li><a href="{{ path('w_clock_report') }}">Отчет</a></li>
+        <li><a href="{{ path('w_clock_logout') }}">выход, {{ app.user.username }}</a></li>
+    </ul>
+</nav>
+
+<div class="container">
+
+    <div><h2>
+        {% block title %}{% endblock %}
+    </h2></div>
+
+
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>

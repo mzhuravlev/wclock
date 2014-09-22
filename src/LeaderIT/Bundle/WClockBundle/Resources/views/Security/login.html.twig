@@ -1,0 +1,29 @@
+<h1 class="title">Вход в систему</h1>
+
+<p>
+    <em>user/userpass</em> <small>(ROLE_USER)</small> - <em>admin/adminpass</em> <small>(ROLE_ADMIN)</small>
+</p>
+
+{% if error %}
+    <div class="error">{{ error.message }}</div>
+{% endif %}
+
+<form action="{{ path("w_clock_login_check") }}" method="post" id="login">
+    <div>
+        <label for="username">Логин</label>
+        <input type="text" id="username" name="_username" value="{{ last_username }}" />
+    </div>
+
+    <div>
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="_password" />
+    </div>
+
+    <button type="submit" class="sf-button">
+            <span class="border-l">
+                <span class="border-r">
+                    <span class="btn-bg">Войти</span>
+                </span>
+            </span>
+    </button>
+</form>

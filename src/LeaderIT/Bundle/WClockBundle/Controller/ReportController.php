@@ -15,7 +15,16 @@ class ReportController extends Controller
     public function indexAction(Request $request)
     {
         $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
-        $events = $repository->findAll();
+        $context = $this->get('security.context');
+
+        if($context->isGranted('ROLE_ADMIN')) {
+            $events = $repository->findAll();
+        } else {
+            $username = $context->getToken()->getUser()->getUsername();
+            $events = $repository->findBy(array('userId' => $username));
+        }
+
+
 
         /*$user = $request->request->get('user');
         $action = $request->request->get('action');

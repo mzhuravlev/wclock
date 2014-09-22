@@ -1,3 +1,15 @@
+w_clock_login:
+    path:     /login
+    defaults: { _controller: WClockBundle:Security:index}
+
+w_clock_login_check:
+    path:     /wclock/check
+    defaults: { _controller: WClockBundle:Security:check}
+
+w_clock_logout:
+    path:     /wclock/logout
+    defaults: { _controller: WClockBundle:Security:logout}
+
 w_clock_action:
     path:     /wclock/action
     defaults: { _controller: WClockBundle:Ajax:index, _format: json }

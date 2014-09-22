@@ -14,7 +14,7 @@ class AjaxController extends Controller
 {
     public function indexAction(Request $request)
     {
-        $user = $request->request->get('user');
+        $user = $this->get('security.context')->getToken()->getUser()->getUsername();
         $action = $request->request->get('action');
 
         $datetime = new \DateTime;
@@ -31,7 +31,7 @@ class AjaxController extends Controller
         $em->flush();
 
 
-        $data = ['id' => $event->getId()];
+        $data = ['id' => $event->getId(), 'user' => $user];
 
         return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }
