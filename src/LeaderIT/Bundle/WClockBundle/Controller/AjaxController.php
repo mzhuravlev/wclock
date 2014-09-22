@@ -16,6 +16,7 @@ class AjaxController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
         $action = $request->request->get('action');
+        $actionType = getActionType($action);
 
         $datetime = new \DateTime;
 
@@ -23,7 +24,7 @@ class AjaxController extends Controller
         $event->setDate($datetime);
         $event->setTime($datetime);
         $event->setUserId($user);
-        $event->setType(getActionType($action));
+        $event->setType($actionType);
 
 
         $em = $this->getDoctrine()->getManager();
@@ -31,7 +32,23 @@ class AjaxController extends Controller
         $em->flush();
 
 
-        $data = ['id' => $event->getId(), 'user' => $user];
+        //$data = ['id' => $event->getId(), 'user' => $user];
+        $data = ['state' => $actionType];
+
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
+    }
+
+    public function stateAction() {
+        $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
+        $context = $this->get('security.context');
+
+        $username = $context->getToken()->getUser()->getUsername();
+        $events = $repository->findBy(array('userId' => $username));
+
+        $lastEvent = array_pop($events);
+        $lastEventType = $lastEvent->getType();
+
+        $data = ['state' => $lastEventType];
 
         return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }

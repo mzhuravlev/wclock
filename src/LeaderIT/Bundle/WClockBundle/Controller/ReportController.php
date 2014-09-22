@@ -25,6 +25,7 @@ class ReportController extends Controller
         }
 
 
+        $result = getReadableEvents($events);
 
         /*$user = $request->request->get('user');
         $action = $request->request->get('action');
@@ -45,6 +46,6 @@ class ReportController extends Controller
 
         $data = ['id' => $event->getId()];*/
 
-        return $this->render('WClockBundle:Report:report.html.twig', array('events' => $events));
+        return $this->render('WClockBundle:Report:report.html.twig', array('events' => $result));
     }
 }

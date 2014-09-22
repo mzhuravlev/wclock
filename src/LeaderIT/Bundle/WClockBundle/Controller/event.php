@@ -6,10 +6,10 @@ define('ACTION_LEAVE', 300);
 define('ACTION_NONE', 0);
 
 
-define('ACTION_WORK_TEXT', 'íà÷àë ğàáîòó');
-define('ACTION_BREAK_TEXT', 'ïåğåğûâ');
-define('ACTION_LEAVE_TEXT', 'çàâåğøèë äåíü');
-define('ACTION_NONE_TEXT', 0);
+define('ACTION_WORK_TEXT', 'Ğ½Ğ°Ñ‡Ğ°Ğ» Ñ€Ğ°Ğ±Ğ¾Ñ‚Ñƒ');
+define('ACTION_BREAK_TEXT', 'Ğ¿ĞµÑ€ĞµÑ€Ñ‹Ğ²');
+define('ACTION_LEAVE_TEXT', 'Ğ·Ğ°Ğ²ĞµÑ€ÑˆĞ¸Ğ» Ğ´ĞµĞ½ÑŒ');
+define('ACTION_NONE_TEXT', 'Ğ½Ğ¸Ñ‡ĞµĞ³Ğ¾');
 
 
 
@@ -17,7 +17,7 @@ define('ACTION_NONE_TEXT', 0);
 
 function getActionType($action) {
     // string -> int
-    // 
+    //
 
     switch($action) {
         case "action_work":
@@ -33,16 +33,32 @@ function getActionType($action) {
 
 function getActionText($action) {
     // int -> string
+    //
 
     switch($action) {
-        case "action_work":
-            return ACTION_WORK;
-        case "action_break":
-            return ACTION_BREAK;
-        case "action_leave":
-            return ACTION_LEAVE;
+        case ACTION_WORK:
+            return ACTION_WORK_TEXT;
+        case ACTION_BREAK:
+            return ACTION_BREAK_TEXT;
+        case ACTION_LEAVE:
+            return ACTION_LEAVE_TEXT;
         default:
-            return ACTION_NONE;
+            return ACTION_NONE_TEXT;
     }
 }
 
+function getReadableEvents($events) {
+    $result = [];
+
+    foreach($events as $rec) {
+        $result[] = array(
+            'id' => $rec->getId(),
+            'userId' => $rec->getUserId(),
+            'type' => getActionText($rec->getType()),
+            'date' => $rec->getDate(),
+            'time' => $rec->getTime()
+        );
+    }
+
+    return $result;
+}
