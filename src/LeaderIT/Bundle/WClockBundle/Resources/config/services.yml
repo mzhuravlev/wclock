@@ -1,0 +1,7 @@
+parameters:
+#    w_clock.example.class: LeaderIT\Bundle\WClockBundle\Example
+
+services:
+#    w_clock.example:
+#        class: %w_clock.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

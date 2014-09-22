@@ -1,0 +1,18 @@
+<html>
+<head>
+    {% javascripts '@WClockBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body>
+<div><a href="{{ path('w_clock_report') }}">Отчет</a></div>
+<div>
+    <form>
+        <input id="uid" type="hidden" value="user1192" />
+        <input class="action" data-action="action_work" type="button" value="Начать работу">
+        <input class="action" data-action="action_leave" type="button" value="Завершить работу">
+        <input class="action" data-action="action_break" type="button" value="Пойти на обед">
+    </form>
+</div>
+</body>
+</html>

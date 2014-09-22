@@ -1,0 +1,13 @@
+w_clock_action:
+    path:     /wclock/action
+    defaults: { _controller: WClockBundle:Ajax:index, _format: json }
+    methods: [POST]
+
+w_clock_report:
+    path:     /wclock/report
+    defaults: { _controller: WClockBundle:Report:index }
+
+w_clock_homepage:
+    path:     /wclock/
+    defaults: { _controller: WClockBundle:Default:index }
+

@@ -1,0 +1,4 @@
+w_clock:
+    resource: "@WClockBundle/Resources/config/routing.yml"
+    prefix:   /
+

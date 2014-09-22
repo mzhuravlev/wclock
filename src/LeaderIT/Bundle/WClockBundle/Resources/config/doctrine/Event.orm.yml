@@ -1,0 +1,20 @@
+LeaderIT\Bundle\WClockBundle\Entity\Event:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        userId:
+            type: string
+            length: '15'
+        type:
+            type: integer
+        date:
+            type: date
+        time:
+            type: time
+    lifecycleCallbacks: {  }

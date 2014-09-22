@@ -1,0 +1,17 @@
+<html>
+<head>
+    {% javascripts '@WClockBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+</head>
+<body>
+<div><a href="{{ path('w_clock_homepage') }}">На главную</a></div>
+<div>
+    <ul>
+        {% for event in events %}
+            <li><b>{{ event.id }} - {{ event.userId }}: {{ event.type }}</b></li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
