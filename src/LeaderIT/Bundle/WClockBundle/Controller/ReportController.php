@@ -12,40 +12,116 @@ require_once("event.php");
 
 class ReportController extends Controller
 {
-    public function indexAction(Request $request)
+    public function indexAction(Request $request, $slug)
     {
         $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
         $context = $this->get('security.context');
 
+        $centerDate = $slug;
+
+        $dates = $this->getDates($centerDate);
+        $header = $this->getDatesRow($dates);
+
         if($context->isGranted('ROLE_ADMIN')) {
             $events = $repository->findAll();
+            $users = $this->getUsersFromEvents($events);
+            foreach($users as $username) {
+                $result[] = ['user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates)];
+            }
         } else {
             $username = $context->getToken()->getUser()->getUsername();
-            $events = $repository->findBy(array('userId' => $username));
+            $result[] = ['user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates)];
         }
 
 
-        $result = getReadableEvents($events);
+        return $this->render('WClockBundle:Report:report.html.twig', ['table' => $result, 'header' => $header]);
+    }
 
-        /*$user = $request->request->get('user');
-        $action = $request->request->get('action');
+    private function getUsersFromEvents($events) {
+        // Event[] -> string[]
+        // получить пользоваталей
 
-        $datetime = new \DateTime;
+        $users = [];
 
-        $event = new Event();
-        $event->setDate($datetime);
-        $event->setTime($datetime);
-        $event->setUserId($user);
-        $event->setType(getActionType($action));
+        foreach($events as $event) {
+            $user = $event->getUserId();
+            if(!in_array($user, $users))
+                $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    private function getTableRow($repository, $username, $dates) {
+        // Repository, Event[] -> []
+
+        $result = [];
+
+        foreach($dates as $date) {
+            $events = $repository->findBy(['userId' => $username, 'date' => $date]);
+            $result[] = $this->getCell($events);
+        }
+
+        return $result;
+    }
+
+    private function getDates($center = false, $span = 15) {
+
+        $center = \DateTime::createFromFormat("dmY", $center);
+        if($center == null) $center = new \DateTime();
 
 
+        $interval = new \DateInterval('P'.$span.'D');
 
-        $em->persist($event);
-        $em->flush();
+        $start = clone $center;
+        $stop = clone $center;
+        $start->sub($interval);
+        $stop->add($interval);
 
+        return new \DatePeriod(
+            $start,
+            new \DateInterval('P1D'),
+            $stop
+        );
+    }
 
-        $data = ['id' => $event->getId()];*/
+    private function getDatesRow($dates) {
+        $result = [];
 
-        return $this->render('WClockBundle:Report:report.html.twig', array('events' => $result));
+        foreach($dates as $date) {
+            $result[] = $date->format(DATE_FORMAT);
+        }
+
+        return $result;
+    }
+
+    private function getCell($events) {
+        // Event[] -> string
+        // вычислить данные для отображения в ячейке
+
+        $count = count($events);
+        $data = '';
+
+        if($count == 0) {
+            $count = '';
+            $class = 'blank';
+            $user = '';
+            $day= '';
+        } else {
+            $workTime = calcDayWorkTime($events, true);
+            $data = $workTime['hours'];
+            if($workTime['hours'] >= 8) { $class = 'normal'; } else { $class = 'red'; }
+            $user = $events[0]->getUserId();
+            $day= $events[0]->getDate()->format("d.m.Y");
+        }
+
+        $result = [
+            'data' => $data,
+            'class' => $class,
+            'user' => $user,
+            'day' => $day
+        ];
+
+        return $result;
     }
 }

@@ -1,15 +1,17 @@
 <?php
 
+define('DATE_FORMAT', "d");
+
 define('ACTION_WORK', 100);
 define('ACTION_BREAK', 200);
 define('ACTION_LEAVE', 300);
 define('ACTION_NONE', 0);
 
 
-define('ACTION_WORK_TEXT', 'начал работу');
-define('ACTION_BREAK_TEXT', 'перерыв');
-define('ACTION_LEAVE_TEXT', 'завершил день');
-define('ACTION_NONE_TEXT', 'ничего');
+define('ACTION_WORK_TEXT', "начал работу");
+define('ACTION_BREAK_TEXT', "перерыв");
+define('ACTION_LEAVE_TEXT', "завершил день");
+define('ACTION_NONE_TEXT', "ничего");
 
 
 
@@ -48,6 +50,9 @@ function getActionText($action) {
 }
 
 function getReadableEvents($events) {
+    // Event[] -> [][]
+    // получить читаемые данные из списка Events
+
     $result = [];
 
     foreach($events as $rec) {
@@ -61,4 +66,70 @@ function getReadableEvents($events) {
     }
 
     return $result;
+}
+
+function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
+    // Event[] -> string
+    // получить количество отработанных часов
+
+    $state = ACTION_LEAVE;
+
+    $start = [];
+    $stop = [];
+
+    foreach($events as $event) {
+        $eventType = $event->getType();
+        $eventTime = $event->getTime();
+
+        switch($state) {
+            case ACTION_LEAVE:
+                if($eventType == ACTION_WORK) {
+                    $state = $eventType;
+                    $start[] = $eventTime;
+                }
+                break;
+            case ACTION_WORK:
+                if($eventType == ACTION_LEAVE or $eventType == ACTION_BREAK) {
+                    $state = $eventType;
+                    $stop[] = $eventTime;
+                }
+                break;
+            case ACTION_BREAK:
+                if($eventType == ACTION_WORK) {
+                    $state = $eventType;
+                    $start[] = $eventTime;
+                }
+                break;
+        }
+    }
+
+    if($toCurrent) {
+        $stop[] = new \DateTime();
+    }
+
+    if(count($start) == count($stop)) {
+        $result = 0;
+
+        foreach($start as $key=>$value) {
+            $result += $stop[$key]->getTimestamp() - $value->getTimestamp();
+        }
+
+        $result = secondsToTime($result);
+        if($separate) {
+            return $result;
+        } else {
+            return $result['hours'] . ":" . $result['minutes'];
+        }
+    }
+
+    return 0;
+}
+
+function secondsToTime($secs)
+{
+    $dt = new DateTime('@' . $secs, new DateTimeZone('UTC'));
+    return array('days'    => $dt->format('z'),
+        'hours'   => $dt->format('G'),
+        'minutes' => $dt->format('i'),
+        'seconds' => $dt->format('s'));
 }

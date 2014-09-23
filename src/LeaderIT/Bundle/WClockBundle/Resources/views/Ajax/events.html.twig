@@ -1,0 +1,9 @@
+<div>
+    <p><b>Список событий за {{ date }}</b></p>
+    <p>время работы: {{ time }}</p>
+    <ul>
+    {% for event in result %}
+        <li><b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
+    {% endfor %}
+    </ul>
+</div>

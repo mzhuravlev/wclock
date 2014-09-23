@@ -10,14 +10,26 @@ w_clock_logout:
     path:     /wclock/logout
     defaults: { _controller: WClockBundle:Security:logout}
 
+w_clock_state:
+    path:     /wclock/state
+    defaults: { _controller: WClockBundle:Ajax:state, _format: json }
+    methods: [POST]
+
+w_clock_info:
+    path:     /wclock/info
+    defaults: { _controller: WClockBundle:Ajax:info }
+    methods: [POST]
+
 w_clock_action:
     path:     /wclock/action
     defaults: { _controller: WClockBundle:Ajax:index, _format: json }
     methods: [POST]
 
 w_clock_report:
-    path:     /wclock/report
-    defaults: { _controller: WClockBundle:Report:index }
+    path:     /wclock/report/{slug}
+    defaults: { _controller: WClockBundle:Report:index, slug: ""}
+
+
 
 w_clock_homepage:
     path:     /wclock/

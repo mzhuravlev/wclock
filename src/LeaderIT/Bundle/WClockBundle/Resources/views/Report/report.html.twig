@@ -3,13 +3,25 @@
 {% block title %}Отчет{% endblock %}
 
 {% block content %}
-
-<div>
-    <ul>
-        {% for event in events %}
-            <li><b>{{ event.id }}</b> - {{ event.userId }}: {{ event.type }}({{ event.date|date("m/d/Y") }} - {{ event.time|date("H:i:s") }})</li>
-        {% endfor %}
-    </ul>
-</div>
+    <input id="url" type="hidden" value="{{ path('w_clock_report') }}">
+    <div id="dialog"></div>
+    <p>Дата: <input type="text" id="datepicker"><input id="change_date" type="button" value="Перейти"></p>
+    <div>
+        <table id="report">
+            <th>
+                {% for data in header %}
+            <td>{{ data }}</td>
+            {% endfor %}
+            </th>
+            {% for row in table %}
+                <tr>
+                    <td><b>{{ row.user }}</b></td>
+                    {% for data in row.row %}
+                        <td data-user="{{ data.user }}" data-day="{{ data.day }}" class="{{ data.class }} cell">{{ data.data }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}
 

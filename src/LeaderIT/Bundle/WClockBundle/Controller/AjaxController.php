@@ -6,6 +6,7 @@ use LeaderIT\Bundle\WClockBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\Time;
 
 require_once("event.php");
@@ -31,11 +32,9 @@ class AjaxController extends Controller
         $em->persist($event);
         $em->flush();
 
-
-        //$data = ['id' => $event->getId(), 'user' => $user];
         $data = ['state' => $actionType];
 
-        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', ['data' => $data]);
     }
 
     public function stateAction() {
@@ -43,13 +42,36 @@ class AjaxController extends Controller
         $context = $this->get('security.context');
 
         $username = $context->getToken()->getUser()->getUsername();
-        $events = $repository->findBy(array('userId' => $username));
+        $events = $repository->findBy(['userId' => $username, 'date' => new \DateTime()]);
 
-        $lastEvent = array_pop($events);
-        $lastEventType = $lastEvent->getType();
+        if(count($events) > 0) {
+            $workTime = calcDayWorkTime($events, false, true);
+            $lastEventType = $events[count($events) - 1]->getType();
+        } else {
+            $workTime = 0;
+            $lastEventType = ACTION_NONE;
+        }
 
-        $data = ['state' => $lastEventType];
+        $data = ['state' => $lastEventType, 'worktime' => $workTime];
 
-        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', ['data' => $data]);
+    }
+
+    public function infoAction(Request $request) {
+        $user = $request->request->get('user');
+        $day  = $request->request->get('day');
+
+        if(!($user == '' or $day == '')) {
+            $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
+            $events = $repository->findBy(['userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)]);
+            $result = getReadableEvents($events);
+            $date = $events[0]->getDate()->format("d.m.Y");
+            $time = calcDayWorkTime($events);
+        } else {
+            $result = [];
+        }
+
+        return $this->render('WClockBundle:Ajax:events.html.twig', ['result' => $result, 'date' => $date, 'time' => $time]);
+        //return $this->render('WClockBundle:Ajax:info.html.twig', ['user' => $user, 'day' => $day]);
     }
 }
