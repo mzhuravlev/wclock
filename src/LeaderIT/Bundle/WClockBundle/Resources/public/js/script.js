@@ -71,14 +71,17 @@ function setButtonState(state) {
     switch(state) {
         case 100:
                 disable(workButton);
+                workButton.val("Начать работу");
                 enable(breakButton);
             break;
         case 200:
                 enable(workButton);
+                workButton.val("Продолжить работу");
                 disable(breakButton);
             break;
         case 300:
                 enable(workButton);
+                workButton.val("Начать работу");
                 enable(breakButton);
             break;
         case 0:

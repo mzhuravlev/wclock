@@ -3,17 +3,17 @@
 }
 
 body {
-    margin: 0px;
+    margin: 0;
 }
 
 nav {
-    margin: 0px;
+    margin: 0;
     width: 100%;
     background-color: lightgray;
 }
 
 nav ul {
-    -webkit-padding-start: 0px;
+    /*-webkit-padding-start: 0px;*/
 }
 
 nav li {
@@ -86,8 +86,8 @@ nav li a {
 }
 
 .buttons {
-    padding: 4px 8px 4px 8px;
-    width: 320px;
+    padding: 4px 8px 4px 13px;
+    width: 352px;
     border-radius: 5px;
     background-color: #eeeeee;
     margin-bottom: 20px;
@@ -97,4 +97,8 @@ nav li a {
     float: right;
     color: gray;
     margin-right: 10px;
+}
+
+#work {
+    width: 140px;
 }

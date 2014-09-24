@@ -5,9 +5,6 @@ namespace LeaderIT\Bundle\WClockBundle\Controller;
 use LeaderIT\Bundle\WClockBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
-use Symfony\Component\Validator\Constraints\Time;
 
 require_once("event.php");
 
@@ -63,11 +60,13 @@ class AjaxController extends Controller
 
         if(!($user == '' or $day == '')) {
             $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
-            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)));
+            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)), array('id' => 'ASC'));
             $result = getReadableEvents($events);
             $date = $events[0]->getDate()->format("d.m.Y");
             $time = calcDayWorkTime($events);
         } else {
+            $date = null;
+            $time = null;
             $result = array();
         }
 
