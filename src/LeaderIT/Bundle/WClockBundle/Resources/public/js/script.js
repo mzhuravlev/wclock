@@ -20,31 +20,36 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
         window.location.href = $("#url").val()+"/"+slug;
     });
     refreshButton.click(function() {
+        var ajaxurl = window.location.href+"state";
         $.ajax({
             type: 'POST',
-            url: '/wclock/state'
+            url: ajaxurl
         }).done(function(msg) {
             setButtonState(msg.state);
             $("#clock").text(msg.worktime);
         });
     });
     actionButtons.click(function() {
+        var ajaxurl = window.location.href+"action";
         $.ajax({
             type: 'POST',
-            url: '/wclock/action',
+            url: ajaxurl,
             data: {action: $(this).data("action")}
         }).done(function(msg) {
-            //var obj = $.parseJSON(msg);
             setButtonState(msg.state);
+            refreshButton.click();
         });
     });
     cell.click(function() {
         var username = $(this).data("user");
         var dayval = $(this).data("day");
+        //var ajaxurl = window.location.href+"/info";
+        var ajaxurl = window.location.href+"/info";
+        ajaxurl = ajaxurl.replace("/report", "");
         if(username != "" && dayval != "") {
             $.ajax({
                 type: 'POST',
-                url: '/wclock/info',
+                url: ajaxurl,
                 data: {
                     user: username,
                     day: dayval

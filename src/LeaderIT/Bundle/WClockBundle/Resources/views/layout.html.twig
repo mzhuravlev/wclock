@@ -16,6 +16,7 @@
         <li><a href="{{ path('w_clock_homepage') }}">Главная</a></li>
         <li><a href="{{ path('w_clock_report') }}">Отчет</a></li>
         <li><a href="{{ path('w_clock_logout') }}">Выход, {{ app.user.username }}</a></li>
+        <div class="now"> Сейчас {{ date|date("H:i d.m.Y") }}</div>
     </ul>
 </nav>
 

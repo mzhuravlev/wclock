@@ -92,3 +92,9 @@ nav li a {
     background-color: #eeeeee;
     margin-bottom: 20px;
 }
+
+.now {
+    float: right;
+    color: gray;
+    margin-right: 10px;
+}

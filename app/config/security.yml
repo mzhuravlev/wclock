@@ -12,7 +12,10 @@ security:
                 users:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
-                    test: { password: test, roles: [ 'ROLE_USER' ] }
+                    MZhuravlev: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    SKatorgin: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    PKurkutov: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
+                    SKrivitsky: { password: 1234qwer, roles: [ 'ROLE_USER' ] }
 
     firewalls:
         wclock:

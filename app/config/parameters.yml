@@ -15,3 +15,8 @@ parameters:
     debug_toolbar: true
     debug_redirects: false
     use_assetic_controller: true
+
+
+#Сервер: u381863.mysql.masterhost.ru
+#Логин: u381863_wclock
+#Новый пароль: .Nt9-Yous9Ock

@@ -53,7 +53,7 @@ function getReadableEvents($events) {
     // Event[] -> [][]
     // получить читаемые данные из списка Events
 
-    $result = [];
+    $result = array();
 
     foreach($events as $rec) {
         $result[] = array(
@@ -74,8 +74,8 @@ function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
 
     $state = ACTION_LEAVE;
 
-    $start = [];
-    $stop = [];
+    $start = array();
+    $stop = array();
 
     foreach($events as $event) {
         $eventType = $event->getType();
@@ -103,7 +103,7 @@ function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
         }
     }
 
-    if($toCurrent) {
+    if($toCurrent and count($start) == count($stop)+1) {
         $stop[] = new \DateTime();
     }
 

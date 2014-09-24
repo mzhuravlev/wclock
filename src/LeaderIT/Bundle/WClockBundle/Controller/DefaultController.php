@@ -9,6 +9,6 @@ class DefaultController extends Controller
     public function indexAction()
     {
 
-        return $this->render('WClockBundle:Default:index.html.twig', array('name' => 'vasya'));
+        return $this->render('WClockBundle:Default:index.html.twig', array('date' => new \DateTime()));
     }
 }

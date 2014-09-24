@@ -32,9 +32,9 @@ class AjaxController extends Controller
         $em->persist($event);
         $em->flush();
 
-        $data = ['state' => $actionType];
+        $data = array('state' => $actionType);
 
-        return $this->render('WClockBundle:Ajax:ajax.json.twig', ['data' => $data]);
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }
 
     public function stateAction() {
@@ -42,7 +42,7 @@ class AjaxController extends Controller
         $context = $this->get('security.context');
 
         $username = $context->getToken()->getUser()->getUsername();
-        $events = $repository->findBy(['userId' => $username, 'date' => new \DateTime()]);
+        $events = $repository->findBy(array('userId' => $username, 'date' => new \DateTime()), array('id' => 'ASC'));
 
         if(count($events) > 0) {
             $workTime = calcDayWorkTime($events, false, true);
@@ -52,9 +52,9 @@ class AjaxController extends Controller
             $lastEventType = ACTION_NONE;
         }
 
-        $data = ['state' => $lastEventType, 'worktime' => $workTime];
+        $data = array('state' => $lastEventType, 'worktime' => $workTime);
 
-        return $this->render('WClockBundle:Ajax:ajax.json.twig', ['data' => $data]);
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }
 
     public function infoAction(Request $request) {
@@ -63,15 +63,15 @@ class AjaxController extends Controller
 
         if(!($user == '' or $day == '')) {
             $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
-            $events = $repository->findBy(['userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)]);
+            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)));
             $result = getReadableEvents($events);
             $date = $events[0]->getDate()->format("d.m.Y");
             $time = calcDayWorkTime($events);
         } else {
-            $result = [];
+            $result = array();
         }
 
-        return $this->render('WClockBundle:Ajax:events.html.twig', ['result' => $result, 'date' => $date, 'time' => $time]);
+        return $this->render('WClockBundle:Ajax:events.html.twig', array('result' => $result, 'date' => $date, 'time' => $time));
         //return $this->render('WClockBundle:Ajax:info.html.twig', ['user' => $user, 'day' => $day]);
     }
 }

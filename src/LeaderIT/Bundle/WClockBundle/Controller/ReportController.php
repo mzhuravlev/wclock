@@ -26,22 +26,22 @@ class ReportController extends Controller
             $events = $repository->findAll();
             $users = $this->getUsersFromEvents($events);
             foreach($users as $username) {
-                $result[] = ['user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates)];
+                $result[] = array('user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates));
             }
         } else {
             $username = $context->getToken()->getUser()->getUsername();
-            $result[] = ['user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates)];
+            $result[] = array('user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates));
         }
 
 
-        return $this->render('WClockBundle:Report:report.html.twig', ['table' => $result, 'header' => $header]);
+        return $this->render('WClockBundle:Report:report.html.twig', array('table' => $result, 'header' => $header, 'date' => new \DateTime()));
     }
 
     private function getUsersFromEvents($events) {
         // Event[] -> string[]
         // получить пользоваталей
 
-        $users = [];
+        $users = array();
 
         foreach($events as $event) {
             $user = $event->getUserId();
@@ -55,10 +55,10 @@ class ReportController extends Controller
     private function getTableRow($repository, $username, $dates) {
         // Repository, Event[] -> []
 
-        $result = [];
+        $result = array();
 
         foreach($dates as $date) {
-            $events = $repository->findBy(['userId' => $username, 'date' => $date]);
+            $events = $repository->findBy(array('userId' => $username, 'date' => $date));
             $result[] = $this->getCell($events);
         }
 
@@ -86,7 +86,7 @@ class ReportController extends Controller
     }
 
     private function getDatesRow($dates) {
-        $result = [];
+        $result = array();
 
         foreach($dates as $date) {
             $result[] = $date->format(DATE_FORMAT);
@@ -115,12 +115,12 @@ class ReportController extends Controller
             $day= $events[0]->getDate()->format("d.m.Y");
         }
 
-        $result = [
+        $result = array(
             'data' => $data,
             'class' => $class,
             'user' => $user,
             'day' => $day
-        ];
+        );
 
         return $result;
     }
