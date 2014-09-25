@@ -17,10 +17,10 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
     changeDate.click(function() {
         var date = datePicker.val();
         var slug = date.replace(".", "").replace(".", "");
-        window.location.href = $("#url").val()+"/"+slug;
+        window.location.href = links.report+"/"+slug;
     });
     refreshButton.click(function() {
-        var ajaxurl = window.location.href+"state";
+        var ajaxurl = links.state;
         $.ajax({
             type: 'POST',
             url: ajaxurl
@@ -30,7 +30,7 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
         });
     });
     actionButtons.click(function() {
-        var ajaxurl = window.location.href+"action";
+        var ajaxurl = links.action;
         $.ajax({
             type: 'POST',
             url: ajaxurl,
@@ -43,9 +43,7 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
     cell.click(function() {
         var username = $(this).data("user");
         var dayval = $(this).data("day");
-        //var ajaxurl = window.location.href+"/info";
-        var ajaxurl = window.location.href+"/info";
-        ajaxurl = ajaxurl.replace("/report", "");
+        var ajaxurl = links.info;
         if(username != "" && dayval != "") {
             $.ajax({
                 type: 'POST',

@@ -8,6 +8,14 @@
     {% stylesheets '@WClockBundle/Resources/public/css/*' %}
     <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
+    <script>
+        var links = {
+            report:  '{{ path('w_clock_report') }}',
+            state:   '{{ path('w_clock_state') }}',
+            action:  '{{ path('w_clock_action') }}',
+            info:    '{{ path('w_clock_info') }}'
+        }
+    </script>
 </head>
 <body>
 
