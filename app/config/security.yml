@@ -56,3 +56,5 @@ security:
 
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        - { path: "^/wclock", role: ROLE_USER, ip: %access_ip% }
+        - { path: "^/wclock", role: ROLE_ADMIN }
