@@ -3,7 +3,7 @@
     <p>время работы: {{ time }}</p>
     <ul>
     {% for event in result %}
-        <li><b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
+        <li class="event-field" data-time="{{ event.time|date("H:i") }}" data-id="{{ event.id }}"><b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
     {% endfor %}
     </ul>
 </div>

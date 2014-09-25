@@ -13,17 +13,22 @@ w_clock_logout:
 w_clock_state:
     path:     /wclock/state
     defaults: { _controller: WClockBundle:Ajax:state, _format: json }
-    methods: [POST, GET]
+    methods: [POST]
 
 w_clock_info:
     path:     /wclock/info
     defaults: { _controller: WClockBundle:Ajax:info }
-    methods: [POST, GET]
+    methods: [POST]
 
 w_clock_action:
     path:     /wclock/action
     defaults: { _controller: WClockBundle:Ajax:index, _format: json }
-    methods: [POST, GET]
+    methods: [POST]
+
+w_clock_edit:
+    path:     /wclock/edit
+    defaults: { _controller: WClockBundle:Ajax:edit, _format: json }
+    methods: [POST]
 
 w_clock_report:
     path:     /wclock/report/{slug}

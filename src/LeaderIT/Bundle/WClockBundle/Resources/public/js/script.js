@@ -7,7 +7,7 @@ $(document).ready(function() {
     var changeDate = $("#change_date");
     datePicker.datepicker({ dateFormat: "dd.mm.yy", defaultDate: +1 });
     // установка обработчиков кнопок
-    setButtonHandlers(actionButtons , refreshButton, cell, dialog, changeDate, datePicker)
+    setButtonHandlers(actionButtons , refreshButton, cell, dialog, changeDate, datePicker);
 
     refreshButton.click();
     setInterval(function() {refreshButton.click();}, 1000*60);
@@ -55,10 +55,46 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
             }).done(function (msg) {
                 dialog.html(msg);
                 dialog.dialog();
+                setDialogClickHandler(dialog);
             });
         }
 
     });
+}
+
+function setDialogClickHandler(dialog, editEvent) {
+    var eventFields = dialog.find(".event-field");
+    eventFields.click(function() {
+        showEditEventDialog($(this).data("id"), $(this).data("time"));
+    });
+}
+
+function showEditEventDialog(id, time) {
+    var ajaxurl = links.edit;
+    var editEvent = $("#edit-event");
+    var idField = editEvent.find("#id-field");
+    var timeField = editEvent.find("#time-field");
+    var typeField = editEvent.find("#type-field");
+    idField.text(id);
+    timeField.val(time);
+    editEvent.find("#write-fields").click(function() {
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                id: id,
+                time: timeField.val(),
+                type: typeField.val()
+            }
+        }).done(function(msg) {
+            if(msg.code == 'success') {
+                window.location.href = links.report;
+            } else {
+                alert("Ошибка при редактирповании записи: "+msg.code);
+            }
+        });
+    });
+    editEvent.dialog();
 }
 
 function setButtonState(state) {

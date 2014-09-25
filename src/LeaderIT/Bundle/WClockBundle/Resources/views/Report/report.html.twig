@@ -5,6 +5,22 @@
 {% block content %}
     <input id="url" type="hidden" value="{{ path('w_clock_report') }}">
     <div id="dialog"></div>
+    {% if edit %}
+        <div id="edit-event" hidden="hidden">
+
+        <ul>
+        <li>ID: <span id="id-field"></span></li>
+            <li>Время: <input type="text" id="time-field" size="6" maxlength="6"></li>
+            <li>Тип: <select id="type-field">
+                    <option value="0">---</option>
+                    <option value="100">начало работы</option>
+                    <option value="200">перерыв</option>
+                    <option value="300">конец работы</option>
+            </select>
+            </li>
+            <li><input type="button" id="write-fields" value="Записать"></li>
+    </div>
+    {% endif %}
     <p>Дата: <input type="text" id="datepicker"><input id="change_date" type="button" value="Перейти"></p>
     <div>
         <table id="report">

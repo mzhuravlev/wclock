@@ -18,6 +18,7 @@ class ReportController extends Controller
         $context = $this->get('security.context');
 
         $centerDate = $slug;
+        $edit = false;
 
         $datePeriod = $this->getDates($centerDate);
         $dates = $datePeriod[1];
@@ -25,6 +26,7 @@ class ReportController extends Controller
         $header = $this->getDatesRow($dates);
 
         if($context->isGranted('ROLE_ADMIN')) {
+            $edit = true;
             $events = $repository->findAll();
             $users = $this->getUsersFromEvents($events);
             foreach($users as $username) {
@@ -36,10 +38,12 @@ class ReportController extends Controller
         }
 
 
+
         return $this->render('WClockBundle:Report:report.html.twig', array(
             'table' => $result,
             'header' => $header,
             'date' => new \DateTime(),
+            'edit' => $edit,
             'startDate' => $startDate
         ));
     }

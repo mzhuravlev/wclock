@@ -73,4 +73,38 @@ class AjaxController extends Controller
         return $this->render('WClockBundle:Ajax:events.html.twig', array('result' => $result, 'date' => $date, 'time' => $time));
         //return $this->render('WClockBundle:Ajax:info.html.twig', ['user' => $user, 'day' => $day]);
     }
+
+    public function editAction(Request $request) {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('WClockBundle:Event');
+        $context = $this->get('security.context');
+
+        $result = array('code' => 'fail');
+
+        if($context->isGranted('ROLE_ADMIN')) {
+            $id = $request->get('id');
+            $time = $request->get('time');
+            $type = $request->get('type');
+
+            $time = \DateTime::createFromFormat("H:i", $time);
+            // !!! сделать валидацию
+
+            $event = $repository->find($id);
+            if (!$event) {
+                /*throw $this->createNotFoundException(
+                    'Не найден Event, id = '.$id
+                );*/
+            } else {
+                $event->setTime($time);
+                if ($type > 0)
+                    $event->setType($type);
+
+                $em->flush();
+                $result = array('code' => 'success');
+            }
+        }
+
+
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $result));
+    }
 }
