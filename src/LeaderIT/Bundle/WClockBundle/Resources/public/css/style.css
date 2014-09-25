@@ -67,6 +67,10 @@ nav li a {
     background-color: lightcoral;
 }
 
+.zero {
+    color: transparent;
+}
+
 .green {
     background-color: rgb(163, 216, 163);
     border: 2px solid rgb(163, 216, 163);

@@ -128,7 +128,12 @@ class ReportController extends Controller
         } else {
             $workTime = calcDayWorkTime($events, true);
             $data = $workTime['hours'];
-            if($workTime['hours'] >= 8) { $class = 'normal'; } else { $class = 'red'; }
+            if($data >= 8) { $class = 'normal'; } else {
+                if($data == 0) { $class = 'red zero'; } else {
+                    $class = 'red';
+                }
+
+            }
             $user = $events[0]->getUserId();
             $day= $events[0]->getDate()->format("d.m.Y");
         }

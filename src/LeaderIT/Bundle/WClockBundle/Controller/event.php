@@ -103,8 +103,12 @@ function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
         }
     }
 
-    if($toCurrent and count($start) == count($stop)+1) {
-        $stop[] = new \DateTime();
+    if(count($start) == count($stop)+1) {
+        if($toCurrent) {
+            $stop[] = new \DateTime(); // считаем время по настоящий момент
+        } else {
+            array_pop($start); // не будем считать время для незаконченного действия
+        }
     }
 
     if(count($start) == count($stop)) {
