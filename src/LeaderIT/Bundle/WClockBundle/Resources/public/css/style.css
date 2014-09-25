@@ -106,3 +106,9 @@ nav li a {
 #work {
     width: 140px;
 }
+
+.title-month {
+    margin: 0 0 0 3px;
+    font-size: 70%;
+    color: gray;
+}

@@ -8,9 +8,9 @@
     <p>Дата: <input type="text" id="datepicker"><input id="change_date" type="button" value="Перейти"></p>
     <div>
         <table id="report">
-            <th> {{ startDate }}
+            <th>
                 {% for data in header %}
-            <td>{{ data }}</td>
+            <td>{{ data[0] }} <p class="title-month">{{ data[1] }}</p></td>
             {% endfor %}
             </th>
             {% for row in table %}

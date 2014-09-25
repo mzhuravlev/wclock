@@ -1,6 +1,6 @@
 <?php
 
-define('DATE_FORMAT', "d");
+define('DATE_FORMAT', "d.m");
 
 define('ACTION_WORK', 100);
 define('ACTION_BREAK', 200);

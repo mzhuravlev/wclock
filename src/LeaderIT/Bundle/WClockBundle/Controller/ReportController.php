@@ -102,7 +102,8 @@ class ReportController extends Controller
         $result = array();
 
         foreach($dates as $date) {
-            $result[] = $date->format(DATE_FORMAT);
+            $d = explode(".", $date->format(DATE_FORMAT));
+            $result[] = array($d[0], $d[1]);
         }
 
         return $result;
