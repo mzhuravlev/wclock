@@ -66,21 +66,31 @@ function setButtonState(state) {
     var leaveButton = $("#leave");
     var breakButton = $("#break");
 
+    workButton.removeClass("green");
+    leaveButton.removeClass("green");
+    breakButton.removeClass("green");
+
     switch(state) {
         case 100:
                 disable(workButton);
-                workButton.val("Начать работу");
                 enable(breakButton);
+                enable(leaveButton);
+                workButton.addClass("green");
+                workButton.val("Начать работу");
             break;
         case 200:
                 enable(workButton);
-                workButton.val("Продолжить работу");
                 disable(breakButton);
+                disable(leaveButton);
+                breakButton.addClass("green");
+                workButton.val("Продолжить работу");
             break;
         case 300:
                 enable(workButton);
+                disable(breakButton);
+                disable(leaveButton);
+                leaveButton.addClass("green");
                 workButton.val("Начать работу");
-                enable(breakButton);
             break;
         case 0:
             break;

@@ -68,6 +68,11 @@ nav li a {
     background-color: lightcoral;
 }
 
+.green {
+    background-color: rgb(163, 216, 163);
+    border: 2px solid rgb(163, 216, 163);
+}
+s
 .worktime {
     padding: 8px 16px 8px 16px;
     border-radius: 5px;
