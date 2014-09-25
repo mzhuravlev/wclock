@@ -69,7 +69,7 @@ class ReportController extends Controller
         $result = array();
 
         foreach($dates as $date) {
-            $events = $repository->findBy(array('userId' => $username, 'date' => $date));
+            $events = $repository->findBy(array('userId' => $username, 'date' => $date), array('id' => 'ASC'));
             $result[] = $this->getCell($events);
         }
 
