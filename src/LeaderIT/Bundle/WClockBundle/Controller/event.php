@@ -120,7 +120,7 @@ function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
 
         $result = secondsToTime($result);
 
-        if($result['hours'] > 12)
+        if($result['hours'] > 20)
             return 0;
 
         if($separate) {

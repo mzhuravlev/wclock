@@ -75,6 +75,7 @@ function showEditEventDialog(id, time) {
     var idField = editEvent.find("#id-field");
     var timeField = editEvent.find("#time-field");
     var typeField = editEvent.find("#type-field");
+    var deleteField = editEvent.find("#delete-field");
     idField.text(id);
     timeField.val(time);
     editEvent.find("#write-fields").unbind().click(function() {
@@ -84,7 +85,8 @@ function showEditEventDialog(id, time) {
             data: {
                 id: id,
                 time: timeField.val(),
-                type: typeField.val()
+                type: typeField.val(),
+                delete: deleteField.val()
             }
         }).fail(function() {
             alert("Запрос к серверу не может быть выполнен");

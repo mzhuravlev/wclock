@@ -85,6 +85,8 @@ class AjaxController extends Controller
             $id = $request->get('id');
             $time = $request->get('time');
             $type = $request->get('type');
+            $delete = $request->get('delete') == 'delete';
+
 
             $time = \DateTime::createFromFormat("H:i", $time);
             // !!! сделать валидацию
@@ -95,12 +97,17 @@ class AjaxController extends Controller
                     'Не найден Event, id = '.$id
                 );*/
             } else {
-                $event->setTime($time);
-                if ($type > 0)
-                    $event->setType($type);
+
+                if($delete) {
+                    $em->remove($event);
+                } else {
+                    $event->setTime($time);
+                    if ($type > 0)
+                        $event->setType($type);
+                }
 
                 $em->flush();
-                $result = array('code' => 'success');
+                $result = array('code' => 'success', 'delete' => $delete, 'id' => $id);
             }
         }
 
