@@ -7,33 +7,35 @@
     <div id="dialog"></div>
     {% if edit %}
         <div id="edit-event" hidden="hidden">
-
-        <ul>
-        <li>ID: <span id="id-field"></span></li>
-            <li>Время: <input type="text" id="time-field" size="6" maxlength="6"></li>
-            <li>Тип: <select id="type-field">
-                    <option value="0">---</option>
-                    <option value="100">начало работы</option>
-                    <option value="200">перерыв</option>
-                    <option value="300">конец работы</option>
-            </select>
-            </li>
-            <li><input type="button" id="write-fields" value="Записать"></li>
-    </div>
+            <p>Редактирование записи</p>
+            <ul>
+                <li>ID: <span id="id-field"></span></li>
+                <li>Время: <input type="text" id="time-field" size="6" maxlength="6"></li>
+                <li>Тип: <select id="type-field">
+                        <option value="0">---</option>
+                        <option value="100">начало работы</option>
+                        <option value="200">перерыв</option>
+                        <option value="300">конец работы</option>
+                    </select>
+                </li>
+                <li><input type="button" id="write-fields" value="Записать"></li>
+            </ul>
+        </div>
     {% endif %}
     <p>Дата: <input type="text" id="datepicker"><input id="change_date" type="button" value="Перейти"></p>
     <div>
         <table id="report">
             <th>
                 {% for data in header %}
-            <td>{{ data[0] }} <p class="title-month">{{ data[1] }}</p></td>
-            {% endfor %}
+                <td>{{ data[0] }} <p class="title-month">{{ data[1] }}</p></td>
+                {% endfor %}
             </th>
             {% for row in table %}
                 <tr>
                     <td><b>{{ row.user }}</b></td>
                     {% for data in row.row %}
-                        <td data-user="{{ data.user }}" data-day="{{ data.day }}" class="{{ data.class }} cell">{{ data.data }}</td>
+                        <td data-user="{{ data.user }}" data-day="{{ data.day }}"
+                            class="{{ data.class }} cell">{{ data.data }}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}

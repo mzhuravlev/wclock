@@ -64,7 +64,7 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
 
 function setDialogClickHandler(dialog, editEvent) {
     var eventFields = dialog.find(".event-field");
-    eventFields.click(function() {
+    eventFields.unbind().click(function() {
         showEditEventDialog($(this).data("id"), $(this).data("time"));
     });
 }
@@ -77,7 +77,7 @@ function showEditEventDialog(id, time) {
     var typeField = editEvent.find("#type-field");
     idField.text(id);
     timeField.val(time);
-    editEvent.find("#write-fields").click(function() {
+    editEvent.find("#write-fields").unbind().click(function() {
         $.ajax({
             type: 'POST',
             url: ajaxurl,
@@ -86,11 +86,13 @@ function showEditEventDialog(id, time) {
                 time: timeField.val(),
                 type: typeField.val()
             }
+        }).fail(function() {
+            alert("Запрос к серверу не может быть выполнен");
         }).done(function(msg) {
             if(msg.code == 'success') {
                 window.location.href = links.report;
             } else {
-                alert("Ошибка при редактирповании записи: "+msg.code);
+                alert("Ошибка при редактировании записи: "+msg.code);
             }
         });
     });

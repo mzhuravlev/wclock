@@ -13,7 +13,7 @@ nav {
 }
 
 nav ul {
-    /*-webkit-padding-start: 0px;*/
+    padding: 0 0 0 16px;
 }
 
 nav li {
@@ -115,4 +115,9 @@ nav li a {
     margin: 0 0 0 3px;
     font-size: 70%;
     color: gray;
+}
+
+#edit-event p, #dialog p {
+    font-weight: bold;
+    text-align: center;
 }
