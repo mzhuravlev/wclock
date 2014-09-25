@@ -335,11 +335,13 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 }
 
 .ui-datepicker .ui-datepicker-prev {
-    left: 2px
+    left: 2px;
+    background-color: indianred;
 }
 
 .ui-datepicker .ui-datepicker-next {
-    right: 2px
+    right: 2px;
+    background-color: indianred;
 }
 
 .ui-datepicker .ui-datepicker-prev-hover {
@@ -574,6 +576,10 @@ input.ui-button::-moz-focus-inner, button.ui-button::-moz-focus-inner {
 
 .ui-draggable .ui-dialog-titlebar {
     cursor: move
+}
+
+.ui-dialog-titlebar .ui-button {
+    background-color: indianred;
 }
 
 .ui-menu {

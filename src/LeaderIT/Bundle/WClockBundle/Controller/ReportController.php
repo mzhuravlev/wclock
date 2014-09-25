@@ -19,7 +19,9 @@ class ReportController extends Controller
 
         $centerDate = $slug;
 
-        $dates = $this->getDates($centerDate);
+        $datePeriod = $this->getDates($centerDate);
+        $dates = $datePeriod[1];
+        $startDate = $this->monthFromDate($datePeriod[0]);
         $header = $this->getDatesRow($dates);
 
         if($context->isGranted('ROLE_ADMIN')) {
@@ -34,7 +36,12 @@ class ReportController extends Controller
         }
 
 
-        return $this->render('WClockBundle:Report:report.html.twig', array('table' => $result, 'header' => $header, 'date' => new \DateTime()));
+        return $this->render('WClockBundle:Report:report.html.twig', array(
+            'table' => $result,
+            'header' => $header,
+            'date' => new \DateTime(),
+            'startDate' => $startDate
+        ));
     }
 
     private function getUsersFromEvents($events) {
@@ -65,24 +72,30 @@ class ReportController extends Controller
         return $result;
     }
 
-    private function getDates($center = false, $span = 15) {
-
-        $center = \DateTime::createFromFormat("dmY", $center);
-        if($center == null) $center = new \DateTime();
-
+    private function getDates($center = false, $span = 31) {
 
         $interval = new \DateInterval('P'.$span.'D');
 
+        $center = \DateTime::createFromFormat("dmY", $center);
+        if($center == null) {
+            $center = new \DateTime();
+            $center->sub(new \DateInterval('P15D'));
+        }
+
+
+
+
         $start = clone $center;
         $stop = clone $center;
-        $start->sub($interval);
+        //$start->sub($interval);
         $stop->add($interval);
 
-        return new \DatePeriod(
+        return array($start,
+            new \DatePeriod(
             $start,
             new \DateInterval('P1D'),
             $stop
-        );
+        ));
     }
 
     private function getDatesRow($dates) {
@@ -123,5 +136,15 @@ class ReportController extends Controller
         );
 
         return $result;
+    }
+
+    private function monthFromDate($date) {
+        $month = array(
+            'январь',            'февраль',            'март',
+            'апрель',            'май',            'июнь',
+            'июль',            'август',            'сентябрь',
+            'октябрь',            'ноябрь',            'декабрь'
+        );
+        return $month[intval($date->format("m")-1, 10)];
     }
 }
