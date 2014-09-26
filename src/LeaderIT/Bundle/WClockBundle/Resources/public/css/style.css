@@ -9,6 +9,8 @@ h2 {
 body {
     margin: 0;
     font-family: Arial, Verdana, Helvetica, sans-serif;
+    /*background-image: url("/css/bg/red.jpg" );
+    background-size: cover;*/
 }
 
 nav {
@@ -161,7 +163,7 @@ nav li a {
     width: 400px;
     margin: 0 auto 0 auto;
     padding-top: 36px;
-    /*background-color: lightcyan;*/
+   /* background-color: lightcyan;*/
 }
 
 .contain-report {
