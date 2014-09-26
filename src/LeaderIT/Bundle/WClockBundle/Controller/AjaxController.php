@@ -91,25 +91,39 @@ class AjaxController extends Controller
             $id = $request->get('id');
             $time = $request->get('time');
             $type = $request->get('type');
-            $delete = $request->get('delete') == 'delete';
+            $delete = $request->get('delete') == 'true';
+            $copy = $request->get('copy') == 'true';
 
 
             $time = \DateTime::createFromFormat("H:i", $time);
             // !!! сделать валидацию
 
+
             $event = $repository->find($id);
             if (!$event) {
-                /*throw $this->createNotFoundException(
+                throw $this->createNotFoundException(
                     'Ќе найден Event, id = '.$id
-                );*/
+                );
             } else {
 
-                if($delete) {
-                    $em->remove($event);
+                if($copy) {
+                    // копируем
+                    $newEvent = new Event();
+                    $newEvent->setType($type);
+                    $newEvent->setDate($event->getDate());
+                    $newEvent->setTime($time);
+                    $newEvent->setUserId($event->getUserId());
+
+                    $em->persist($newEvent);
                 } else {
-                    $event->setTime($time);
-                    if ($type > 0)
-                        $event->setType($type);
+
+                    if ($delete) {
+                        $em->remove($event);
+                    } else {
+                        $event->setTime($time);
+                        if ($type > 0)
+                            $event->setType($type);
+                    }
                 }
 
                 $em->flush();
