@@ -133,6 +133,11 @@ function calcDayWorkTime($events, $separate = false, $toCurrent = false) {
     return 0;
 }
 
+function calcTimeToNow($time) {
+    $now = new \DateTime();
+    return $now->diff($time)->format("%H:%I");
+}
+
 function secondsToTime($secs)
 {
     $dt = new DateTime('@' . $secs, new DateTimeZone('UTC'));

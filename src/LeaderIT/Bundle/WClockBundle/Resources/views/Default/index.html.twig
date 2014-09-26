@@ -3,19 +3,19 @@
 {% block title %}Контроль времени{% endblock %}
 
 {% block content %}
-<div class="buttons">
-
-        <input id="work" class="action" data-action="action_work" type="button" value="Начать работу">
-        <input id="leave" class="action" data-action="action_leave" type="button" value="Завершить день">
-        <input id="break" class="action" data-action="action_break" type="button" value="Перерыв">
-
-</div>
-    <div class="worktime">
-        <div id="clock"></div>
+    <div class="contain-center">
+        <div class="buttons">
+                <input id="work" class="action left" data-action="action_work" type="button" value="Начать работу">
+                <input id="leave" class="action middle" data-action="action_leave" type="button" value="Завершить день">
+                <input id="break" class="action" data-action="action_break" type="button" value="Перерыв">
+        </div>
+        <div class="worktime">
+            <div id="clock">00:00</div>
+        </div>
+        <div class="breaktime" hidden="hidden">
+            Перерыв длится
+            <span class="break-clock"></span>
+        </div>
+        <input type="button" id="refresh" hidden="hidden">
     </div>
-    <div>
-        <input id="refresh" type="button" value="Обновить">
-
-    </div>
-
 {% endblock %}

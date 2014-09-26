@@ -2,8 +2,13 @@
     padding-left: 24px;
 }
 
+h2 {
+    margin: 0;
+}
+
 body {
     margin: 0;
+    font-family: Arial, Verdana, Helvetica, sans-serif;
 }
 
 nav {
@@ -14,6 +19,7 @@ nav {
 
 nav ul {
     padding: 0 0 0 16px;
+    margin: 0;
 }
 
 nav li {
@@ -77,15 +83,30 @@ nav li a {
 }
 
 .worktime {
-    padding: 8px 16px 8px 16px;
-    border-radius: 5px;
     background-color: #eeeeee;
-    width: 75px;
-    float: left;
+    width: 400px;
+    margin-top: 36px;
+    border-radius: 10px;
+    border: 2px groove grey;
+    text-align: center;
+}
+
+.breaktime {
+    width: 400px;
+    margin-top: 36px;
+    border-radius: 10px;
+    background-color: #eeeeee;
+    text-align: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.break-clock{
+    font-weight: bold;
 }
 
 #clock {
-    font-size: 36px;
+    font-size: 72px;
     font-family: "Consolas", "Monaco", "Courier New", Courier;
 }
 
@@ -94,11 +115,25 @@ nav li a {
 }
 
 .buttons {
-    padding: 4px 8px 4px 13px;
-    width: 352px;
+    padding: 8px 0 8px 0;
+    width: 400px;
     border-radius: 5px;
     background-color: #eeeeee;
-    margin-bottom: 20px;
+    margin: 0 auto 20px auto;
+}
+
+.left {
+    margin-left: 10px;
+}
+
+.middle {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.cont-auto {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .now {
@@ -120,4 +155,26 @@ nav li a {
 #edit-event p, #dialog p {
     font-weight: bold;
     text-align: center;
+}
+
+.contain-center {
+    width: 400px;
+    margin: 0 auto 0 auto;
+    padding-top: 36px;
+    /*background-color: lightcyan;*/
+}
+
+.contain-report {
+    width: 1110px;
+    margin: auto 0 auto 0;
+    /*background-color: lightcyan;*/
+}
+
+.text-center {
+    text-align: center;
+    padding-bottom: 0;
+}
+
+.action {
+   /* border: 0px none transparent;*/
 }

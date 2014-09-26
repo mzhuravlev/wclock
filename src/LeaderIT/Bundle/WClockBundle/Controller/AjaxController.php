@@ -49,7 +49,13 @@ class AjaxController extends Controller
             $lastEventType = ACTION_NONE;
         }
 
-        $data = array('state' => $lastEventType, 'worktime' => $workTime);
+        if($lastEventType == ACTION_BREAK) {
+            $breaktime = calcTimeToNow(array_pop($events)->getTime());
+        } else {
+            $breaktime = 0;
+        }
+
+        $data = array('state' => $lastEventType, 'worktime' => $workTime, 'breaktime' => $breaktime);
 
         return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }

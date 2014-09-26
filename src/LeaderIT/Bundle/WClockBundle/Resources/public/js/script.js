@@ -27,6 +27,7 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
         }).done(function(msg) {
             setButtonState(msg.state);
             $("#clock").text(msg.worktime);
+            $(".breaktime").find(".break-clock").text(msg.breaktime);
         });
     });
     actionButtons.click(function() {
@@ -101,6 +102,15 @@ function showEditEventDialog(id, time) {
     editEvent.dialog();
 }
 
+function showBreakTime(show) {
+    var breakClock = $(".breaktime");
+    if(show) {
+        breakClock.slideDown();
+    } else {
+        breakClock.slideUp();
+    }
+}
+
 function setButtonState(state) {
     var workButton = $("#work");
     var leaveButton = $("#leave");
@@ -117,6 +127,7 @@ function setButtonState(state) {
                 enable(leaveButton);
                 workButton.addClass("green");
                 workButton.val("Начать работу");
+                showBreakTime(false);
             break;
         case 200:
                 enable(workButton);
@@ -124,6 +135,7 @@ function setButtonState(state) {
                 disable(leaveButton);
                 breakButton.addClass("green");
                 workButton.val("Продолжить работу");
+                showBreakTime(true);
             break;
         case 300:
                 enable(workButton);
@@ -131,6 +143,7 @@ function setButtonState(state) {
                 disable(leaveButton);
                 leaveButton.addClass("green");
                 workButton.val("Начать работу");
+                showBreakTime(false);
             break;
         case 0:
             break;
