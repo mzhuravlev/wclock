@@ -17,24 +17,25 @@ $(document).ready(function() {
         window.location.href = links.stat;
     });
 
-    $(".user").click(function() {
-        var username = $(this).data('user');
-        var cells = $("#"+username+"_row").find("td");
-        title = $(this).data('user');
-
-        var result = 0;
-
-        for(i=0; i<cells.length;i++) {
-             var value = parseFloat(cells[i].dataset.val);
-             if(value) {
-                 result += value;
-             }
-        }
-        var dialog = $("<div>Отработано часов: <b>"+result+"</b></div>").addClass("alert").dialog();
-        dialog.dialog('option', 'title', title);
-        //console.log(result);
-    });
+    $(".total-hours").each(calculateTotal);
 });
+
+calculateTotal = function(index, el) {
+    var username = $(el).data('user');
+    var cells = $("#"+username+"_row").find("td");
+
+    var result = 0;
+
+    for(i=0; i<cells.length;i++) {
+        var value = parseFloat(cells[i].dataset.val);
+        if(value) {
+            result += value;
+        }
+    }
+    $(el).text(result.toFixed(1));
+
+    return true;
+};
 
 function dateToString(date) {
     hours = ('0'+date.h).slice(-2);

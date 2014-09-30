@@ -20,6 +20,7 @@
                 {% for data in header %}
             <td>{{ data[0] }} <p class="title-month">{{ data[1] }}</p></td>
             {% endfor %}
+            <td class="total">Итого</td>
             </th>
             {% for row in table %}
                 <tr class="user-row" id="{{ row.user }}_row">
@@ -28,6 +29,7 @@
                         <td data-user="{{ data.user }}" data-day="{{ data.day }}" data-val="{{ data.data }}"
                             class="{{ data.class }} cell">{{ data.data }}</td>
                     {% endfor %}
+                    <td class="total-hours" data-user="{{ row.user }}"></td>
                 </tr>
             {% endfor %}
         </table>

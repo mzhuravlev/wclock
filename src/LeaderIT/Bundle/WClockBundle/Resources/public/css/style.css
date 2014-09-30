@@ -46,7 +46,6 @@ nav li a {
 }
 
 #report td, #report th {
-    font-size: 1em;
     border: 1px solid lightgray;
     padding: 8px 7px 8px 7px;
 }
@@ -196,7 +195,7 @@ nav li a {
     margin: 24px auto 0 36px;
 }
 
-.user:hover, .normal:hover, .red:hover {
+.normal:hover, .red:hover {
     background-color: #ffcc00;
 }
 
@@ -223,4 +222,17 @@ table {
 
 .ui-progressbar-value .ui-widget-header .ui-corner-left {
     background-color: rgb(163, 216, 163);
+}
+
+.total-hours {
+    width: 50px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0;
+}
+
+.total {
+    font-weight: bold;
+    font-size: small;
+    text-align: center;
 }
