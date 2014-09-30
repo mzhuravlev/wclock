@@ -18,6 +18,13 @@ $(document).ready(function() {
     });
 
     $(".total-hours").each(calculateTotal);
+
+    var month = $("#cur-month").text().substring(1);
+    $("#dateMonth option").each(function(){
+        if(this.text.substring(1) == month){
+            $(this).prop('selected', 'true');
+        }
+    });
 });
 
 calculateTotal = function(index, el) {
@@ -35,7 +42,7 @@ calculateTotal = function(index, el) {
     $(el).text(result.toFixed(1));
 
     return true;
-};
+}
 
 function dateToString(date) {
     hours = ('0'+date.h).slice(-2);

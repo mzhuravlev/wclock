@@ -61,6 +61,7 @@ class ReportController extends Controller
         $datePeriod = $this->getDates($centerDate);
         $dates = $datePeriod[1];
         $startDate = $this->monthFromDate($datePeriod[0]);
+        $startYear = $datePeriod[0]->format("Y");
         $header = $this->getDatesRow($dates);
 
         if ($context->isGranted('ROLE_ADMIN')) {
@@ -80,7 +81,8 @@ class ReportController extends Controller
             'header' => $header,
             'date' => new \DateTime(),
             'edit' => $edit,
-            'startDate' => $startDate
+            'startDate' => $startDate,
+            'startYear' => $startYear
         ));
     }
 

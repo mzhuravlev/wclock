@@ -1,6 +1,6 @@
 {% extends 'WClockBundle::layout.html.twig' %}
 
-{% block title %}Отчет{% endblock %}
+{% block title %}Отчет за <span id="cur-month">{{ startDate }}</span> {{ startYear }}{% endblock %}
 
 {% block content %}
     <input id="url" type="hidden" value="{{ path('w_clock_report') }}">
@@ -18,7 +18,7 @@
         <table id="report">
             <th>
                 {% for data in header %}
-            <td>{{ data[0] }} <p class="title-month">{{ data[1] }}</p></td>
+            <td>{{ data[0] }} <p class="title-month" hidden="hidden">{{ data[1] }}</p></td>
             {% endfor %}
             <td class="total">Итого</td>
             </th>
