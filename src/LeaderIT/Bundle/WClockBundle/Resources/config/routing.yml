@@ -30,6 +30,10 @@ w_clock_edit:
     defaults: { _controller: WClockBundle:Ajax:edit, _format: json }
     methods: [POST]
 
+w_clock_stat:
+    path:     /wclock/stat
+    defaults: { _controller: WClockBundle:Report:stat}
+
 w_clock_report:
     path:     /wclock/report/{slug}
     defaults: { _controller: WClockBundle:Report:index, slug: ""}

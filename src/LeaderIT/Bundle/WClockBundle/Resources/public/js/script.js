@@ -11,6 +11,29 @@ $(document).ready(function() {
 
     refreshButton.click();
     setInterval(function() {refreshButton.click();}, 1000*60);
+
+
+    $("#show_stat").click(function(){
+        window.location.href = links.stat;
+    });
+
+    $(".user").click(function() {
+        var username = $(this).data('user');
+        var cells = $("#"+username+"_row").find("td");
+        title = $(this).data('user');
+
+        var result = 0;
+
+        for(i=0; i<cells.length;i++) {
+             var value = parseFloat(cells[i].dataset.val);
+             if(value) {
+                 result += value;
+             }
+        }
+        var dialog = $("<div>Отработано часов: <b>"+result+"</b></div>").addClass("alert").dialog();
+        dialog.dialog('option', 'title', title);
+        //console.log(result);
+    });
 });
 
 function dateToString(date) {
@@ -35,6 +58,10 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
             setButtonState(msg.state);
             $("#clock").text(dateToString(msg.worktime));
             $(".breaktime").find(".break-clock").text(dateToString(msg.breaktime));
+            var progress = (msg.worktime.h*60 + msg.worktime.i) / 4.8;
+            $( "#progressbar" ).progressbar({
+                value: progress
+            });
         });
     });
     actionButtons.click(function() {

@@ -22,10 +22,10 @@
             {% endfor %}
             </th>
             {% for row in table %}
-                <tr>
-                    <td><b>{{ row.user }}</b></td>
+                <tr class="user-row" id="{{ row.user }}_row">
+                    <td class="user" data-user="{{ row.user }}"><b>{{ row.user }}</b></td>
                     {% for data in row.row %}
-                        <td data-user="{{ data.user }}" data-day="{{ data.day }}"
+                        <td data-user="{{ data.user }}" data-day="{{ data.day }}" data-val="{{ data.data }}"
                             class="{{ data.class }} cell">{{ data.data }}</td>
                     {% endfor %}
                 </tr>

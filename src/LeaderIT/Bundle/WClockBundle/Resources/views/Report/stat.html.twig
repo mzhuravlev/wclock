@@ -1,0 +1,18 @@
+{% extends 'WClockBundle::layout.html.twig' %}
+
+{% block title %}Статистика{% endblock %}
+
+{% block content %}
+    <input id="url" type="hidden" value="{{ path('w_clock_stat') }}">
+    <div id="dialog"></div>
+    {% if edit %}
+        {% include 'WClockBundle:Report:edit.html.twig' %}
+    {% endif %}
+    <div class="contain-report">
+        <div id="dateForm">
+            {% include 'WClockBundle:Report:datepicker.html.twig'%}
+        </div>
+
+    </div>
+{% endblock %}
+

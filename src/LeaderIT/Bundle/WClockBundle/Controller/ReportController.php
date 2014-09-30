@@ -13,6 +13,43 @@ class ReportController extends Controller
 {
     const DATE_FORMAT = "d.m";
 
+    public function statAction()
+    {
+        $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
+
+        $context = $this->get('security.context');
+        $edit = $context->isGranted('ROLE_ADMIN');
+
+        $events = $repository->findAll();
+        $users = $this->getUsersFromEvents($events);
+
+        foreach($users as $user) {
+            $events = $repository->findBy(array('userId' => $user), array('id' => 'asc'));
+            $dates = $this->getDatesFromEvents($events);
+
+            foreach($dates as $date) {
+
+            }
+        }
+
+        return $this->render('WClockBundle:Report:stat.html.twig', array(
+            'date' => new \DateTime(),
+            'edit' => $edit
+        ));
+    }
+
+    private function getDatesFromEvents($events) {
+        $dates = array();
+
+        foreach($events as $event) {
+            $eventDate = $event->getDate();
+            if(!in_array($eventDate, $dates))
+                $dates[] = $eventDate;
+        }
+
+        return $dates;
+    }
+
     public function indexAction(Request $request, $slug)
     {
         $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
@@ -90,11 +127,11 @@ class ReportController extends Controller
         if ($center == null) {
             $center = new \DateTime();
             $center = $center->format("m.Y");
-            $center = \DateTime::createFromFormat("d.m.Y", "01.".$center);
+            $center = \DateTime::createFromFormat("d.m.Y", "01." . $center);
         }
 
-        $span = $monthDays[intval($center->format("m"))-1];
-        $interval = new \DateInterval('P'.$span.'D');
+        $span = $monthDays[intval($center->format("m")) - 1];
+        $interval = new \DateInterval('P' . $span . 'D');
 
 
         $start = clone $center;
@@ -122,11 +159,12 @@ class ReportController extends Controller
         return $result;
     }
 
-    private function formatWorkTime($time) {
+    private function formatWorkTime($time)
+    {
         $hour = $time->h;
-        $min = floor($time->i/6);
-        if($min>0)
-            return $hour.".".$min;
+        $min = floor($time->i / 6);
+        if ($min > 0)
+            return $hour . "." . $min;
 
         return $hour;
     }

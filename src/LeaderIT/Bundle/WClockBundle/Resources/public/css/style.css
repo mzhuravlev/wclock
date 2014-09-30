@@ -67,6 +67,8 @@ nav li a {
     background-color: lightgrey;
 }
 
+
+
 .blank {
     background-color: transparent;
 }
@@ -177,15 +179,48 @@ nav li a {
     padding-bottom: 0;
 }
 
-.action:hover {
+.action:hover:enabled {
     background-color: #ffcc00;
    /* border: 0px none transparent;*/
 }
 
-#change_date {
+#change_date, #show_stat {
     border: 1px grey;
 }
 
-#change_date:hover {
+#change_date:hover, #show_stat:hover {
     background-color: #ffcc00;
+}
+
+.alert {
+    margin: 24px auto 0 36px;
+}
+
+.user:hover, .normal:hover, .red:hover {
+    background-color: #ffcc00;
+}
+
+table {
+    cursor: default;
+}
+
+#progress {
+    margin-top: 36px;
+    width: 100%;
+    background-color: lightgrey;
+    height: 50px;
+}
+
+.ui-progressbar {
+    margin-top: 36px;
+    height: 20px;
+    position: relative;
+}
+
+#progressbar .ui-widget-header {
+    background: rgb(163, 216, 163);
+}
+
+.ui-progressbar-value .ui-widget-header .ui-corner-left {
+    background-color: rgb(163, 216, 163);
 }
