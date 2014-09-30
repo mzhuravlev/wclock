@@ -1,0 +1,18 @@
+<div id="edit-event" hidden="hidden">
+    <p>Редактирование записи</p>
+    <ul>
+        <li>ID: <span id="id-field"></span></li>
+        <li>Время: <input type="text" id="time-field" size="6" maxlength="6"></li>
+        <li>Тип: <select id="type-field">
+                <option value="0">---</option>
+                <option value="100">начало работы</option>
+                <option value="200">перерыв</option>
+                <option value="300">конец работы</option>
+            </select>
+        </li>
+        <li>Изменить: <input type="radio" name="act" checked></li>
+        <li>Удалить: <input id="delete-field" name="act" type="radio"></li>
+        <li>Копировать: <input id="copy-field" name="act" type="radio"></li>
+        <li><input type="button" id="write-fields" value="Записать"></li>
+    </ul>
+</div>

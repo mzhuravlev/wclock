@@ -26,19 +26,17 @@ class ReportController extends Controller
         $startDate = $this->monthFromDate($datePeriod[0]);
         $header = $this->getDatesRow($dates);
 
-        if($context->isGranted('ROLE_ADMIN')) {
+        if ($context->isGranted('ROLE_ADMIN')) {
             $edit = true;
             $events = $repository->findAll();
             $users = $this->getUsersFromEvents($events);
-            foreach($users as $username) {
-                $result[] = array('user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates));
+            foreach ($users as $username) {
+                $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $username, $dates));
             }
         } else {
             $username = $context->getToken()->getUser()->getUsername();
-            $result[] = array('user'=> $username, 'row' => $this->getTableRow($repository, $username, $dates));
+            $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $username, $dates));
         }
-
-
 
         return $this->render('WClockBundle:Report:report.html.twig', array(
             'table' => $result,
@@ -49,27 +47,29 @@ class ReportController extends Controller
         ));
     }
 
-    private function getUsersFromEvents($events) {
+    private function getUsersFromEvents($events)
+    {
         // Event[] -> string[]
         // получить пользоваталей
 
         $users = array();
 
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $user = $event->getUserId();
-            if(!in_array($user, $users))
+            if (!in_array($user, $users))
                 $users[] = $user;
         }
 
         return $users;
     }
 
-    private function getTableRow($repository, $username, $dates) {
+    private function getTableRow($repository, $username, $dates)
+    {
         // Repository, Event[] -> []
 
         $result = array();
 
-        foreach($dates as $date) {
+        foreach ($dates as $date) {
             $events = $repository->findBy(array('userId' => $username, 'date' => $date), array('id' => 'ASC'));
             $result[] = $this->getCell($events);
         }
@@ -77,17 +77,24 @@ class ReportController extends Controller
         return $result;
     }
 
-    private function getDates($center = false, $span = 31) {
+    private function getDates($center = false, $span = 31)
+    {
 
-        $interval = new \DateInterval('P'.$span.'D');
+        $monthDays = array(
+            31, 29, 31,
+            30, 31, 30,
+            31, 31, 30,
+            31, 30, 31);
 
         $center = \DateTime::createFromFormat("dmY", $center);
-        if($center == null) {
+        if ($center == null) {
             $center = new \DateTime();
-            $center->sub(new \DateInterval('P15D'));
+            $center = $center->format("m.Y");
+            $center = \DateTime::createFromFormat("d.m.Y", "01.".$center);
         }
 
-
+        $span = $monthDays[intval($center->format("m"))-1];
+        $interval = new \DateInterval('P'.$span.'D');
 
 
         $start = clone $center;
@@ -97,16 +104,17 @@ class ReportController extends Controller
 
         return array($start,
             new \DatePeriod(
-            $start,
-            new \DateInterval('P1D'),
-            $stop
-        ));
+                $start,
+                new \DateInterval('P1D'),
+                $stop
+            ));
     }
 
-    private function getDatesRow($dates) {
+    private function getDatesRow($dates)
+    {
         $result = array();
 
-        foreach($dates as $date) {
+        foreach ($dates as $date) {
             $d = explode(".", $date->format(self::DATE_FORMAT));
             $result[] = array($d[0], $d[1]);
         }
@@ -114,29 +122,43 @@ class ReportController extends Controller
         return $result;
     }
 
-    private function getCell($events) {
+    private function formatWorkTime($time) {
+        $hour = $time->h;
+        $min = floor($time->i/6);
+        if($min>0)
+            return $hour.".".$min;
+
+        return $hour;
+    }
+
+    private function getCell($events)
+    {
         // Event[] -> string
         // вычислить данные для отображения в ячейке
 
         $count = count($events);
         $data = '';
 
-        if($count == 0) {
+        if ($count == 0) {
             $count = '';
             $class = 'blank';
             $user = '';
-            $day= '';
+            $day = '';
         } else {
-            $workTime = $this->get('wclock')->calcDayWorkTime($events, true);
-            $data = $workTime->h;
-            if($data >= 8) { $class = 'normal'; } else {
-                if($data == 0) { $class = 'red zero'; } else {
+            $workTime = $this->get('wclock')->calcDayWorkTime($events);
+            $data = $this->formatWorktime($workTime);
+            if ($data >= 8) {
+                $class = 'normal';
+            } else {
+                if ($data == 0) {
+                    $class = 'red zero';
+                } else {
                     $class = 'red';
                 }
 
             }
             $user = $events[0]->getUserId();
-            $day= $events[0]->getDate()->format("d.m.Y");
+            $day = $events[0]->getDate()->format("d.m.Y");
         }
 
         $result = array(
@@ -149,13 +171,14 @@ class ReportController extends Controller
         return $result;
     }
 
-    private function monthFromDate($date) {
+    private function monthFromDate($date)
+    {
         $month = array(
-            'январь',            'февраль',            'март',
-            'апрель',            'май',            'июнь',
-            'июль',            'август',            'сентябрь',
-            'октябрь',            'ноябрь',            'декабрь'
+            'январь', 'февраль', 'март',
+            'апрель', 'май', 'июнь',
+            'июль', 'август', 'сентябрь',
+            'октябрь', 'ноябрь', 'декабрь'
         );
-        return $month[intval($date->format("m")-1, 10)];
+        return $month[intval($date->format("m") - 1, 10)];
     }
 }

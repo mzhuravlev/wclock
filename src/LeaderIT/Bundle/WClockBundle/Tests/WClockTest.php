@@ -67,8 +67,8 @@ class WClockTest extends \PHPUnit_Framework_TestCase{
         // --- RUN TESTS
         $this->assertEquals(DateTime::createFromFormat("H:i", "10:00"), $event1->getTime(), "parameter not matches");
         $this->assertEquals($expect1->h, $result1->h);
-        $this->assertEquals($expect1->m, $result1->m);
+        $this->assertEquals($expect1->i, $result1->i);
         $this->assertEquals($expect2->h, $result2->h);
-        $this->assertEquals($expect2->m, $result2->m);
+        $this->assertEquals($expect2->i, $result2->i);
     }
 } 

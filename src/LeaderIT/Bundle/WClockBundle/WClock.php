@@ -15,7 +15,7 @@ use LeaderIT\Bundle\WClockBundle\Entity\Event;
 class WClock
 {
 
-    function calcDayWorkTime($events, $separate = false, $toCurrent = false)
+    function calcDayWorkTime($events, $toCurrent = false)
     {
         // Event[] -> DateInterval
         // получить количество отработанных часов

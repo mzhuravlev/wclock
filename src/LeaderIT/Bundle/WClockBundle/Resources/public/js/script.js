@@ -3,11 +3,11 @@ $(document).ready(function() {
     var actionButtons = $(".action");
     var cell = $(".cell");
     var dialog = $("#dialog");
-    var datePicker = $("#datepicker");
+    //var datePicker = $("#datepicker");
     var changeDate = $("#change_date");
-    datePicker.datepicker({ dateFormat: "dd.mm.yy", defaultDate: +1 });
+    //datePicker.datepicker({ dateFormat: "dd.mm.yy", defaultDate: +1 });
     // установка обработчиков кнопок
-    setButtonHandlers(actionButtons , refreshButton, cell, dialog, changeDate, datePicker);
+    setButtonHandlers(actionButtons , refreshButton, cell, dialog, changeDate);
 
     refreshButton.click();
     setInterval(function() {refreshButton.click();}, 1000*60);
@@ -19,10 +19,11 @@ function dateToString(date) {
     return hours+":"+minutes;
 }
 
-function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDate, datePicker) {
+function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDate) {
     changeDate.click(function() {
-        var date = datePicker.val();
-        var slug = date.replace(".", "").replace(".", "");
+        year = $("#dateYear").val();
+        month = $("#dateMonth").val();
+        var slug = "01"+month+year;
         window.location.href = links.report+"/"+slug;
     });
     refreshButton.click(function() {

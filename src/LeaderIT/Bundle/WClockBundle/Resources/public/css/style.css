@@ -181,3 +181,11 @@ nav li a {
     background-color: #ffcc00;
    /* border: 0px none transparent;*/
 }
+
+#change_date {
+    border: 1px grey;
+}
+
+#change_date:hover {
+    background-color: #ffcc00;
+}

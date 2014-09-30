@@ -41,7 +41,7 @@ class AjaxController extends Controller
         $events = $repository->findBy(array('userId' => $username, 'date' => new \DateTime()), array('id' => 'ASC'));
 
         if(count($events) > 0) {
-            $workTime = $this->get('w_clock')->calcDayWorkTime($events, false, true);
+            $workTime = $this->get('w_clock')->calcDayWorkTime($events, true);
             $lastEventType = $events[count($events) - 1]->getType();
         } else {
             $workTime = new \DateInterval("P0D");
