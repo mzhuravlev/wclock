@@ -1,5 +1,5 @@
 <?php
-
+/*
 define('DATE_FORMAT', "d.m");
 
 define('ACTION_WORK', 100);
@@ -145,4 +145,4 @@ function secondsToTime($secs)
         'hours'   => $dt->format('G'),
         'minutes' => $dt->format('i'),
         'seconds' => $dt->format('s'));
-}
+}*/

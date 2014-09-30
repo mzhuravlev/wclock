@@ -1,6 +1,6 @@
 <p>Список событий за {{ date }}</p>
 
-время работы: {{ time }}
+время работы: {{ time|date("%H:%I") }}
 
 <ul>
     {% for event in result %}

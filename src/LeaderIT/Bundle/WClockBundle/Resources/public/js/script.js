@@ -13,6 +13,12 @@ $(document).ready(function() {
     setInterval(function() {refreshButton.click();}, 1000*60);
 });
 
+function dateToString(date) {
+    hours = ('0'+date.h).slice(-2);
+    minutes = ('0'+date.i).slice(-2);
+    return hours+":"+minutes;
+}
+
 function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDate, datePicker) {
     changeDate.click(function() {
         var date = datePicker.val();
@@ -26,8 +32,8 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
             url: ajaxurl
         }).done(function(msg) {
             setButtonState(msg.state);
-            $("#clock").text(msg.worktime);
-            $(".breaktime").find(".break-clock").text(msg.breaktime);
+            $("#clock").text(dateToString(msg.worktime));
+            $(".breaktime").find(".break-clock").text(dateToString(msg.breaktime));
         });
     });
     actionButtons.click(function() {

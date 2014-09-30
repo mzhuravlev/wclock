@@ -8,10 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\Time;
 
-require_once("event.php");
 
 class ReportController extends Controller
 {
+    const DATE_FORMAT = "d.m";
+
     public function indexAction(Request $request, $slug)
     {
         $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
@@ -106,7 +107,7 @@ class ReportController extends Controller
         $result = array();
 
         foreach($dates as $date) {
-            $d = explode(".", $date->format(DATE_FORMAT));
+            $d = explode(".", $date->format(self::DATE_FORMAT));
             $result[] = array($d[0], $d[1]);
         }
 
@@ -126,8 +127,8 @@ class ReportController extends Controller
             $user = '';
             $day= '';
         } else {
-            $workTime = calcDayWorkTime($events, true);
-            $data = $workTime['hours'];
+            $workTime = $this->get('wclock')->calcDayWorkTime($events, true);
+            $data = $workTime->h;
             if($data >= 8) { $class = 'normal'; } else {
                 if($data == 0) { $class = 'red zero'; } else {
                     $class = 'red';

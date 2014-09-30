@@ -177,6 +177,7 @@ nav li a {
     padding-bottom: 0;
 }
 
-.action {
+.action:hover {
+    background-color: #ffcc00;
    /* border: 0px none transparent;*/
 }

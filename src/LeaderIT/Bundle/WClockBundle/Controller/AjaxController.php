@@ -5,8 +5,7 @@ namespace LeaderIT\Bundle\WClockBundle\Controller;
 use LeaderIT\Bundle\WClockBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-
-require_once("event.php");
+use LeaderIT\Bundle\WClockBundle\WClock;
 
 class AjaxController extends Controller
 {
@@ -14,7 +13,7 @@ class AjaxController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
         $action = $request->request->get('action');
-        $actionType = getActionType($action);
+        $actionType = $this->getActionType($action);
 
         $datetime = new \DateTime;
 
@@ -42,17 +41,17 @@ class AjaxController extends Controller
         $events = $repository->findBy(array('userId' => $username, 'date' => new \DateTime()), array('id' => 'ASC'));
 
         if(count($events) > 0) {
-            $workTime = calcDayWorkTime($events, false, true);
+            $workTime = $this->get('w_clock')->calcDayWorkTime($events, false, true);
             $lastEventType = $events[count($events) - 1]->getType();
         } else {
-            $workTime = 0;
-            $lastEventType = ACTION_NONE;
+            $workTime = new \DateInterval("P0D");
+            $lastEventType = Event::ACTION_NONE;
         }
 
-        if($lastEventType == ACTION_BREAK) {
-            $breaktime = calcTimeToNow(array_pop($events)->getTime());
+        if($lastEventType == Event::ACTION_BREAK) {
+            $breaktime = $this->get('w_clock')->calcTimeToNow(array_pop($events)->getTime());
         } else {
-            $breaktime = 0;
+            $breaktime = new \DateInterval("P0D");
         }
 
         $data = array('state' => $lastEventType, 'worktime' => $workTime, 'breaktime' => $breaktime);
@@ -66,10 +65,11 @@ class AjaxController extends Controller
 
         if(!($user == '' or $day == '')) {
             $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
-            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)), array('id' => 'ASC'));
-            $result = getReadableEvents($events);
+            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)), array('time' => 'ASC'));
+            $time = $this->get('w_clock')->calcDayWorkTime($events);
+            $result = $this->getReadableEvents($events);
             $date = $events[0]->getDate()->format("d.m.Y");
-            $time = calcDayWorkTime($events);
+
         } else {
             $date = null;
             $time = null;
@@ -133,5 +133,40 @@ class AjaxController extends Controller
 
 
         return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $result));
+    }
+
+    function getReadableEvents($events) {
+        // Event[] -> [][]
+        // получить читаемые данные из списка Events
+
+        $result = array();
+
+        foreach($events as $rec) {
+            $result[] = array(
+                'id' => $rec->getId(),
+                'userId' => $rec->getUserId(),
+                'type' => Event::getActionText($rec->getType()),
+                'date' => $rec->getDate(),
+                'time' => $rec->getTime()
+            );
+        }
+
+        return $result;
+    }
+
+    function getActionType($action) {
+        // string -> int
+        //
+
+        switch($action) {
+            case "action_work":
+                return Event::ACTION_WORK;
+            case "action_break":
+                return Event::ACTION_BREAK;
+            case "action_leave":
+                return Event::ACTION_LEAVE;
+            default:
+                return Event::ACTION_NONE;
+        }
     }
 }

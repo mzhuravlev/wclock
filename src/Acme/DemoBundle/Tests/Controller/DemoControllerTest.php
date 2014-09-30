@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\DemoBundle\Tests\Controller;
+/*namespace Acme\DemoBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -43,3 +43,4 @@ class DemoControllerTest extends WebTestCase
         $this->assertCount(1, $crawler->filter('h1.title:contains("secured for Admins only!")'));
     }
 }
+*/
