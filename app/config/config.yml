@@ -33,6 +33,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
+    write_to:       "%kernel.root_dir%/../www/"
     bundles:        ['WClockBundle']
     #java: /usr/bin/java
     filters:
