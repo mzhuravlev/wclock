@@ -11,16 +11,16 @@
     <div class="contain-report">
         <div id="dateForm">
             {#{ form(dateForm) }#}
-            {% include 'WClockBundle:Report:datepicker.html.twig'%}
+            {% include 'WClockBundle:Report:datepicker.html.twig' %}
         </div>
 
         {# <p>Дата: <input type="text" id="datepicker"><input id="change_date" type="button" value="Перейти"></p> #}
         <table id="report">
             <th>
                 {% for data in header %}
-            <td>{{ data[0] }} <p class="title-month" hidden="hidden">{{ data[1] }}</p></td>
-            {% endfor %}
-            <td class="total">Итого</td>
+                    <td>{{ data[0] }} <p class="title-month" hidden="hidden">{{ data[1] }}</p></td>
+                {% endfor %}
+                <td class="total">Итого</td>
             </th>
             {% for row in table %}
                 <tr class="user-row" id="{{ row.user }}_row">

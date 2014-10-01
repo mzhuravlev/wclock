@@ -137,7 +137,8 @@ function showEditEventDialog(id, time) {
             alert("Запрос к серверу не может быть выполнен");
         }).done(function(msg) {
             if(msg.code == 'success') {
-                window.location.href = links.report;
+                location.reload();
+                //window.location.href = links.report;
             } else {
                 alert("Ошибка при редактировании записи: "+msg.code);
             }
