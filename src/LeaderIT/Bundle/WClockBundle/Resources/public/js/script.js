@@ -25,7 +25,36 @@ $(document).ready(function() {
             $(this).prop('selected', 'true');
         }
     });
+
+    setProgressTooltip();
 });
+
+function setProgressTooltip() {
+
+        var pbar = $("#progressbar");
+        var tooltip = $("#tooltip");
+
+        pbar.mousemove(function (eventObject) {
+
+        $data_tooltip = pbar.progressbar("value").toFixed(0)+"%";
+
+        tooltip.text($data_tooltip)
+            .css({
+                "top" : eventObject.pageY + 5,
+                "left" : eventObject.pageX + 5
+            })
+            .show();
+
+    }).mouseout(function () {
+
+        tooltip.hide()
+            .text("")
+            .css({
+                "top" : 0,
+                "left" : 0
+            });
+    });
+}
 
 calculateTotal = function(index, el) {
     var username = $(el).data('user');
@@ -67,7 +96,10 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
             $("#clock").text(dateToString(msg.worktime));
             $(".breaktime").find(".break-clock").text(dateToString(msg.breaktime));
             var progress = (msg.worktime.h*60 + msg.worktime.i) / 4.8;
-            $( "#progressbar" ).progressbar({
+            var pbar = $( "#progressbar" );
+            //var pbarText = pbar.find();
+            //pbarText.text(progress.toFixed(0)+"%");//ui-progressbar-value ui-widget-header ui-corner-left
+            pbar.progressbar({
                 value: progress
             });
         });
