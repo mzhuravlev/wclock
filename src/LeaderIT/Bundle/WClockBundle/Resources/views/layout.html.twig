@@ -1,12 +1,6 @@
 <html>
 <head>
     <title>Учет рабочего времени</title>
-    {% javascripts '@WClockBundle/Resources/public/js/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {% stylesheets '@WClockBundle/Resources/public/css/*' %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
     <script>
         var links = {
             report: '{{ path('w_clock_report') }}',
@@ -17,6 +11,12 @@
             stat: '{{ path('w_clock_stat') }}'
         }
     </script>
+    {% stylesheets '@WClockBundle/Resources/public/css/*' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+    {% javascripts '@WClockBundle/Resources/public/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 </head>
 <body>
 

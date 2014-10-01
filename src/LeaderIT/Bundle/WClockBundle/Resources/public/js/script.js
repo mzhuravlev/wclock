@@ -20,7 +20,7 @@ $(document).ready(function() {
     $(".total-hours").each(calculateTotal);
 
     var month = $("#cur-month").text().substring(1);
-    $("#dateMonth option").each(function(){
+    $("#dateMonth").find("option").each(function(){
         if(this.text.substring(1) == month){
             $(this).prop('selected', 'true');
         }
@@ -33,7 +33,7 @@ calculateTotal = function(index, el) {
 
     var result = 0;
 
-    for(i=0; i<cells.length;i++) {
+    for(var i=0; i<cells.length;i++) {
         var value = parseFloat(cells[i].dataset.val);
         if(value) {
             result += value;
@@ -42,18 +42,18 @@ calculateTotal = function(index, el) {
     $(el).text(result.toFixed(1));
 
     return true;
-}
+};
 
 function dateToString(date) {
-    hours = ('0'+date.h).slice(-2);
-    minutes = ('0'+date.i).slice(-2);
+    var hours = ('0'+date.h).slice(-2);
+    var minutes = ('0'+date.i).slice(-2);
     return hours+":"+minutes;
 }
 
 function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDate) {
     changeDate.click(function() {
-        year = $("#dateYear").val();
-        month = $("#dateMonth").val();
+        var year = $("#dateYear").val();
+        var month = $("#dateMonth").val();
         var slug = "01"+month+year;
         window.location.href = links.report+"/"+slug;
     });
@@ -105,7 +105,7 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
     });
 }
 
-function setDialogClickHandler(dialog, editEvent) {
+function setDialogClickHandler(dialog) {
     var eventFields = dialog.find(".event-field");
     eventFields.unbind().click(function() {
         showEditEventDialog($(this).data("id"), $(this).data("time"));

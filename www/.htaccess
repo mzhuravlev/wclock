@@ -5,9 +5,12 @@
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
 DirectoryIndex app.php
 
+Redirect 301 /app_dev.php/wclock http://wclock.leader-it.com/wclock
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    #RewriteRule     /app_dev.php/wclock/  /wclock/ [R=301, L]
     # Determine the RewriteBase automatically and set it as environment variable.
     # If you are using Apache aliases to do mass virtual hosting or installed the
     # project in a subdirectory, the base path will be prepended to allow proper
@@ -49,4 +52,31 @@ DirectoryIndex app.php
         RedirectMatch 302 ^/$ /app.php/
         # RedirectTemp cannot be used instead
     </IfModule>
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive on
+  ExpiresByType image/jpeg "access plus 3 day"
+  ExpiresByType image/gif "access plus 3 day"
+
+  ExpiresActive on
+
+# Your document html
+ExpiresByType text/html "access plus 12 hours"
+
+# Media: images, video, audio
+ExpiresByType audio/ogg "access plus 5 day"
+ExpiresByType image/gif "access plus 5 day"
+ExpiresByType image/jpeg "access plus 5 day"
+ExpiresByType image/png "access plus 5 day"
+ExpiresByType video/mp4 "access plus 5 day"
+ExpiresByType video/ogg "access plus 5 day"
+ExpiresByType video/webm "access plus 5 day"
+
+# CSS and JavaScript
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType text/css "access plus 1 year"
+
+# Default
+ExpiresDefault "access plus 5 day"
 </IfModule>
