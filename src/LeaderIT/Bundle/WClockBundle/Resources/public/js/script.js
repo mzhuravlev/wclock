@@ -13,21 +13,29 @@ $(document).ready(function() {
     setInterval(function() {refreshButton.click();}, 1000*60);
 
 
-    $("#show_stat").click(function(){
+    /*$("#show_stat").click(function(){
         window.location.href = links.stat;
-    });
+    });*/
 
     $(".total-hours").each(calculateTotal);
 
+    setMonthSelector();
+
+    setProgressTooltip();
+});
+
+function setMonthSelector() {
     var month = $("#cur-month").text().substring(1);
-    $("#dateMonth").find("option").each(function(){
+    var dateMonth = $("#dateMonth");
+    dateMonth.find("option").each(function(){
         if(this.text.substring(1) == month){
             $(this).prop('selected', 'true');
         }
     });
-
-    setProgressTooltip();
-});
+    dateMonth.on('change', function() {
+        $("#change_date").click();
+    });
+}
 
 function setProgressTooltip() {
 
