@@ -110,7 +110,7 @@ class ReportController extends Controller
 
         foreach ($dates as $date) {
             $events = $repository->findBy(array('userId' => $username, 'date' => $date), array('id' => 'ASC'));
-            $result[] = $this->getCell($events);
+            $result[] = $this->getCell($events, $date, $username);
         }
 
         return $result;
@@ -171,7 +171,7 @@ class ReportController extends Controller
         return $hour;
     }
 
-    private function getCell($events)
+    private function getCell($events, $date, $username)
     {
         // Event[] -> string
         // вычислить данные для отображения в ячейке
@@ -198,8 +198,11 @@ class ReportController extends Controller
 
             }
             $user = $events[0]->getUserId();
-            $day = $events[0]->getDate()->format("d.m.Y");
+            //$day = $date->format("d.m.Y");//$events[0]->getDate()->format("d.m.Y");
         }
+
+        $day = $date->format("d.m.Y");
+        $user = $username;
 
         $result = array(
             'data' => $data,

@@ -22,7 +22,36 @@ $(document).ready(function() {
     setMonthSelector();
 
     setProgressTooltip();
+
+    //setMarkDatFunc();
 });
+
+function setMarkDatFunc() {
+
+    var showMarkOption = function(obj){
+        obj.toggleClass("red");
+    }
+
+    var hideMarkOption = function(obj){
+        obj.removeClass("red");
+    }
+
+    var cells = $(".cell");
+    cells.on('mouseover', function () {
+        //$(this).timer =
+
+        var toggle = function(obj){
+            return function() {
+                showMarkOption(obj);
+            }
+        }
+
+        $(this).data("timer", setTimeout(toggle($(this)), 2000));
+    }).on('mouseout', function(){
+        clearTimeout($(this).data("timer"));
+        hideMarkOption($(this));
+    });
+}
 
 function setMonthSelector() {
     var month = $("#cur-month").text().substring(1);
@@ -147,6 +176,29 @@ function setButtonHandlers(actionButtons, refreshButton, cell, dialog, changeDat
 
 function setDialogClickHandler(dialog) {
     var eventFields = dialog.find(".event-field");
+    var markSection = {
+        mark: dialog.find("#mark-field"),
+        comment: dialog.find("#comment-field"),
+        write: dialog.find("#write-mark")
+    }
+
+    markSection.write.unbind().click(function(){
+        var ajaxurl = links.mark;
+        var data = {
+            date: markSection.write.data("date"),
+            user: markSection.write.data("user")
+        }
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: data
+        }).done(function(){
+            //location.reload();
+        });
+
+        //dialog.dialog("close");
+    });
+
     eventFields.unbind().click(function() {
         showEditEventDialog($(this).data("id"), $(this).data("time"));
     });

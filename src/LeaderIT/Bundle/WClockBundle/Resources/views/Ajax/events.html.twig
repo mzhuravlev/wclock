@@ -7,4 +7,12 @@
         <li class="event-field" data-time="{{ event.time|date("H:i") }}" data-id="{{ event.id }}">
             <b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
     {% endfor %}
+<li></li>
+    <li>Пометить: <select id="mark-field">
+            <option value="100">отпуск</option>
+            <option value="200">больничный</option>
+            <option value="300">другое</option>
+        </select></li>
+    <li><input id="comment-field" type="text"></li>
+    <li><input type="button" data-user="{{ user }}" data-date="{{ date }}" id="write-mark" value="Записать"></li>
 </ul>

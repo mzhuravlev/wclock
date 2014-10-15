@@ -9,6 +9,16 @@ use LeaderIT\Bundle\WClockBundle\WClock;
 
 class AjaxController extends Controller
 {
+    public function markAction(Request $request)
+    {
+        $date = $request->request->get("date");
+        $user = $request->request->get("user");
+
+        $data = array('date' => $date, 'user' => $user);
+
+        return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
+    }
+
     public function indexAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser()->getUsername();
@@ -64,11 +74,12 @@ class AjaxController extends Controller
         $day  = $request->request->get('day');
 
         if(!($user == '' or $day == '')) {
+            $date = \DateTime::createFromFormat("d.m.Y", $day);//$events[0]->getDate()->format("d.m.Y");
             $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
-            $events = $repository->findBy(array('userId' => $user, 'date' => \DateTime::createFromFormat("d.m.Y", $day)), array('time' => 'ASC'));
+            $events = $repository->findBy(array('userId' => $user, 'date' => $date), array('time' => 'ASC'));
             $time = $this->get('w_clock')->calcDayWorkTime($events);
             $result = $this->getReadableEvents($events);
-            $date = $events[0]->getDate()->format("d.m.Y");
+
 
         } else {
             $date = null;
@@ -76,7 +87,7 @@ class AjaxController extends Controller
             $result = array();
         }
 
-        return $this->render('WClockBundle:Ajax:events.html.twig', array('result' => $result, 'date' => $date, 'time' => $time));
+        return $this->render('WClockBundle:Ajax:events.html.twig', array('user' => $user, 'result' => $result, 'date' => $date->format("d.m.Y"), 'time' => $time));
         //return $this->render('WClockBundle:Ajax:info.html.twig', ['user' => $user, 'day' => $day]);
     }
 

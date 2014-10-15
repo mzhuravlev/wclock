@@ -38,6 +38,10 @@ w_clock_report:
     path:     /wclock/report/{slug}
     defaults: { _controller: WClockBundle:Report:index, slug: ""}
 
+w_clock_mark:
+    path:     /wclock/mark
+    defaults: { _controller: WClockBundle:Ajax:mark }
+
 
 
 w_clock_homepage:
