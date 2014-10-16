@@ -2,6 +2,7 @@
 
 namespace LeaderIT\Bundle\WClockBundle\Controller;
 
+use LeaderIT\Bundle\WClockBundle\Entity\DayMark;
 use LeaderIT\Bundle\WClockBundle\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,11 +12,43 @@ class AjaxController extends Controller
 {
     public function markAction(Request $request)
     {
-        $date = $request->request->get("date");
+        if(!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+            $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => array('error' => 'access denied')));
+
+        $date = \DateTime::createFromFormat("d.m.Y", $request->request->get("date"));
         $user = $request->request->get("user");
+        $type = $request->request->get("mark");
+        $comment = $request->request->get("comment");
 
-        $data = array('date' => $date, 'user' => $user);
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('WClockBundle:DayMark');
 
+        $dayMark = $repository->findBy(array(
+            'date' => $date,
+            'user' => $user
+        ));
+
+        if($dayMark) {
+            $dayMark = array_pop($dayMark);
+        } else {
+            $dayMark = new DayMark();
+            $dayMark->setDate($date);
+            $dayMark->setUser($user);
+        }
+
+        $dayMark->setType($type);
+        $dayMark->setComment($comment);
+        $em->persist($dayMark);
+        $em->flush();
+
+        $data = array(
+            'result' => 'success',
+            'message' => 'mark updated'
+//            'date' => $date->format("d.m.Y"),
+//            'user' => $user,
+//            'mark' => $type,
+//            'comment' => $comment
+        );
         return $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => $data));
     }
 

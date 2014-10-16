@@ -1,4 +1,7 @@
 $(document).ready(function() {
+
+
+
     var refreshButton = $("#refresh");
     var actionButtons = $(".action");
     var cell = $(".cell");
@@ -19,12 +22,35 @@ $(document).ready(function() {
 
     $(".total-hours").each(calculateTotal);
 
+    setMarkFunc(cell);
+
     setMonthSelector();
 
     setProgressTooltip();
 
     //setMarkDatFunc();
 });
+
+function setMarkFunc(obj) {
+    obj.tooltip();
+    obj.each(function(){
+        _this = $(this);
+        var mark = _this.data('mark');
+        switch(mark) {
+            case 100:
+                _this.addClass("marked-100");
+                break;
+            case 200:
+                _this.addClass("marked-200");
+                break;
+            case 300:
+                _this.addClass("marked-300");
+                break;
+            default:
+                break;
+        }
+    });
+}
 
 function setMarkDatFunc() {
 
@@ -186,14 +212,16 @@ function setDialogClickHandler(dialog) {
         var ajaxurl = links.mark;
         var data = {
             date: markSection.write.data("date"),
-            user: markSection.write.data("user")
+            user: markSection.write.data("user"),
+            mark: markSection.mark.val(),
+            comment: markSection.comment.val()
         }
         $.ajax({
             type: 'POST',
             url: ajaxurl,
             data: data
         }).done(function(){
-            //location.reload();
+            location.reload();
         });
 
         //dialog.dialog("close");

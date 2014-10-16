@@ -249,3 +249,18 @@ table {
     opacity: 0.5;
     border-radius: 5px;
 }
+
+.marked-100{
+    /*border: 2px ridge darkgray !important;*/
+    /*background-color: darkseagreen !important;*/
+    background-image: url("/css/images/palm-tree.png");
+    background-position: bottom;
+    background-repeat: no-repeat;
+}
+.marked-200{
+    /*border: 2px ridge darkgray !important;*/
+    background-color: lightskyblue !important;
+}
+.marked-300{
+     border: 2px ridge darkgray !important;
+ }

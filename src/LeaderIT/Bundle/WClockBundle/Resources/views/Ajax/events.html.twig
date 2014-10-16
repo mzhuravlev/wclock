@@ -7,8 +7,11 @@
         <li class="event-field" data-time="{{ event.time|date("H:i") }}" data-id="{{ event.id }}">
             <b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
     {% endfor %}
-<li></li>
+</ul>
+<a href="#mark-panel" onclick="$('#mark-panel').slideDown(); $(this).hide();">пометить</a>
+<ul id="mark-panel" hidden="hidden">
     <li>Пометить: <select id="mark-field">
+            <option value="0">--------</option>
             <option value="100">отпуск</option>
             <option value="200">больничный</option>
             <option value="300">другое</option>

@@ -26,7 +26,7 @@
                 <tr class="user-row" id="{{ row.user }}_row">
                     <td class="user" data-user="{{ row.user }}"><b>{{ row.user }}</b></td>
                     {% for data in row.row %}
-                        <td data-user="{{ data.user }}" data-day="{{ data.day }}" data-val="{{ data.data }}"
+                        <td title="{{ data.comment }}" data-mark="{{ data.mark }}" data-user="{{ data.user }}" data-day="{{ data.day }}" data-val="{{ data.data }}"
                             class="{{ data.class }} cell">{{ data.data }}</td>
                     {% endfor %}
                     <td class="total-hours" data-user="{{ row.user }}"></td>

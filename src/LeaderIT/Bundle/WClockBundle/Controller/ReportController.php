@@ -53,6 +53,7 @@ class ReportController extends Controller
     public function indexAction(Request $request, $slug)
     {
         $repository = $this->getDoctrine()->getRepository('WClockBundle:Event');
+        $markRepository = $this->getDoctrine()->getRepository('WClockBundle:DayMark');
         $context = $this->get('security.context');
 
         $centerDate = $slug;
@@ -69,11 +70,11 @@ class ReportController extends Controller
             $events = $repository->findAll();
             $users = $this->getUsersFromEvents($events);
             foreach ($users as $username) {
-                $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $username, $dates));
+                $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $markRepository, $username, $dates));
             }
         } else {
             $username = $context->getToken()->getUser()->getUsername();
-            $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $username, $dates));
+            $result[] = array('user' => $username, 'row' => $this->getTableRow($repository, $markRepository, $username, $dates));
         }
 
         return $this->render('WClockBundle:Report:report.html.twig', array(
@@ -102,15 +103,16 @@ class ReportController extends Controller
         return $users;
     }
 
-    private function getTableRow($repository, $username, $dates)
+    private function getTableRow($repository, $markRepository, $username, $dates)
     {
         // Repository, Event[] -> []
 
         $result = array();
 
+
         foreach ($dates as $date) {
             $events = $repository->findBy(array('userId' => $username, 'date' => $date), array('id' => 'ASC'));
-            $result[] = $this->getCell($events, $date, $username);
+            $result[] = $this->getCell($markRepository, $events, $date, $username);
         }
 
         return $result;
@@ -171,13 +173,24 @@ class ReportController extends Controller
         return $hour;
     }
 
-    private function getCell($events, $date, $username)
+    private function getCell($markRepository, $events, $date, $username)
     {
         // Event[] -> string
         // вычислить данные для отображения в ячейке
 
+
         $count = count($events);
         $data = '';
+        $mark = '';
+        $comment = '';
+
+        $dayMark = $markRepository->findBy(array('user' => $username, 'date' => $date));
+        if($dayMark) {
+            $dayMark = array_pop($dayMark);
+            $mark = $dayMark->getType();
+            $comment = $dayMark->getComment();
+        }
+
 
         if ($count == 0) {
             $count = '';
@@ -208,7 +221,9 @@ class ReportController extends Controller
             'data' => $data,
             'class' => $class,
             'user' => $user,
-            'day' => $day
+            'day' => $day,
+            'mark' => $mark,
+            'comment' => $comment
         );
 
         return $result;

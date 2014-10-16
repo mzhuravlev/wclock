@@ -1,0 +1,21 @@
+LeaderIT\Bundle\WClockBundle\Entity\DayMark:
+    type: entity
+    table: null
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        date:
+            type: date
+        user:
+            type: string
+            length: 255
+        type:
+            type: integer
+        comment:
+            type: string
+            length: 255
+    lifecycleCallbacks: {  }
