@@ -12,7 +12,7 @@ class AjaxController extends Controller
 {
     public function markAction(Request $request)
     {
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN'))
+        if($this->get('security.context')->isGranted('ROLE_ADMIN') != true)
             $this->render('WClockBundle:Ajax:ajax.json.twig', array('data' => array('error' => 'access denied')));
 
         $date = \DateTime::createFromFormat("d.m.Y", $request->request->get("date"));
@@ -120,7 +120,9 @@ class AjaxController extends Controller
             $result = array();
         }
 
-        return $this->render('WClockBundle:Ajax:events.html.twig', array('user' => $user, 'result' => $result, 'date' => $date->format("d.m.Y"), 'time' => $time));
+        $admin =  $this->get('security.context')->isGranted('ROLE_ADMIN');
+
+        return $this->render('WClockBundle:Ajax:events.html.twig', array('user' => $user, 'result' => $result, 'date' => $date->format("d.m.Y"), 'time' => $time, 'admin' => $admin));
         //return $this->render('WClockBundle:Ajax:info.html.twig', ['user' => $user, 'day' => $day]);
     }
 

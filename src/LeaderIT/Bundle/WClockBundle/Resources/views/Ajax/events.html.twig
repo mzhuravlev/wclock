@@ -8,6 +8,7 @@
             <b>{{ event.time|date("H:i") }}</b> - {{ event.type }}</li>
     {% endfor %}
 </ul>
+{% if admin %}
 <a href="#mark-panel" onclick="$('#mark-panel').slideDown(); $(this).hide();">пометить</a>
 <ul id="mark-panel" hidden="hidden">
     <li>Пометить: <select id="mark-field">
@@ -16,6 +17,7 @@
             <option value="200">больничный</option>
             <option value="300">другое</option>
         </select></li>
-    <li><input id="comment-field" type="text"></li>
+    <li><input id="comment-field" type="text" placeholder="комментарий"></li>
     <li><input type="button" data-user="{{ user }}" data-date="{{ date }}" id="write-mark" value="Записать"></li>
 </ul>
+{% endif %}
