@@ -313,7 +313,8 @@ function setButtonState(state) {
         case 0:
             break;
         default:
-            error("Неизвестный статус: "+state);
+            location.reload();
+            //error("Неизвестный статус: "+state);
     }
 }
 
